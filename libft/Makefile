@@ -1,7 +1,6 @@
 NAME := libft.a
 
 BASIC_SRCS := ft_isalpha.c \
-			  ft_isalpha.c \
 			  ft_isdigit.c \
 			  ft_isalnum.c \
 			  ft_isascii.c \
@@ -78,7 +77,7 @@ bonus :
 $(NAME) : $(OBJS)
 	$(AR) $(ARFLAGS) $@ $?
 
-$%.o : %.c
+%.o : %.c
 	$(CC) $(CFLAGS) -c $<
 
 .PHONY : all clean fclean re bonus
