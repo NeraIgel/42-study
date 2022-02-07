@@ -1,0 +1,96 @@
+[ft_printf]
+-. 가변인자 매크로
+	a. va_list		// 가변 인자 포인터 변수
+	b. va_start		// 가변 인자 포인터 변수 초기화 (마지막 필수 인자를 활용하여 가변 인자의 시작 주소를 계산한다)
+	c. va_end		// 가변 인자 포인터 변수 NULL 처리
+	d. va_arg		// 가변 인자 포인터 변수를 역참조 후, 다음 인자를 참조 (내부적으로는 바이트패딩 효과를 감안하여 _INTSIZEOF() 매크로를 사용한다)
+	e. va_copy		// 가변 인자 포인터 변수 복사 (현재 가변 인자의 위치를 저장하고자 활 때 활용한다)
+
+-. <입력> 서식지정자
+    : %[parameter][flags][width][.precision][length modifier]type
+	a. parameter	// POSIX C 전용 (매개변수를 순차적으로 사용하지 아니하고, 유연하게 참조하고자 할 때 활용한다)	// 미구현
+	b. flags		// 출력 형식 (e.g. “-0# +” any combination)							// bonus
+	c. width		// 출력 너비 (e.g. number)											// bonus
+	d. .precision	// 정밀도 (e.g. ‘.’ or “.number”)									// bonus
+	e. length		// 자로형 길이 (e.g. ‘hh’, ‘h’, ‘l’, ‘ll’, ‘j’, ‘z’, ’t’, ‘L’)		// 범위 x
+	f. type			// 자료형 종류 (e.g. “cspdiuxX%”)
+
+-. <출력> 문자열
+    : [left_margin][sign][prefix][zero][value][right_margin]
+	a. left_margin	// 왼쪽 여백 (e.g. number)											// bonus				(cf. width)
+	b. sign			// 부호 (e.g. ‘-‘)													// bonus : ‘ ‘ or ‘+’	(cf. flags’ ‘, flags+)
+	c. prefix		// 접두사 (e.g. “0x”)												// bonus : “0X”			(cf. flags#)
+	d. zero			// 0 개수 (e.g. number)												// bonus				(cf. flags-, flags0, width, .precision)
+	e. value		// 가변인수 값 (e.g. void * or uintmax_t)							// bonus : val_len		(cf. .precision)
+	f. right_margin	// 오른쪽 여백 (e.g. number)										// bonus				(cf. flags-, width)
+
+-. <출력> 타입별 출력필드
+	a. char						// M : [value]			// B : [left_margin][value][right_margin]	
+	b. string					// M : [value]			// B : [left_margin][value][right_margin]				(cf. .precision)
+	c. pointer					// M : [prefix][value]	// B : [left_margin][prefix][value][right_margin]
+	d. integer					// M : [sign][value]	// B : [left_margin][sign][zero][value][right_margin]	(cf. flags0, flags’ ‘, flags+, .precision)
+	e. unsigned integer			// M : [value]			// B : [left_margin][zero][value][right_margin]			(cf. flags0, .precision)
+	f. lowercase hexa decimal	// M : [value]			// B : [left_margin][prefix][zero][value][right_margin]	(cf. flags0, flags#, .precision)
+	g. uppercase hexa decimal	// M : [value]			// B : [left_margin][prefix][zero][value][right_margin]	(cf. flags0, flags#, .precision)
+	h. percent					// M : [%]				// B : [left_margin][zero][%][right_margin]				(cf. flags0)
+
+	* common : flags-, width
+
+-. 코드 흐름
+	a. 가변인자 초기화
+	b. 문자열 순회 (for 오류체크)		// 오류 발생한 서식지정자 위치 탐색				// bonus
+		b-a. 서식지정자 검색되지 않는 경우 skip											// bonus
+		b-b. 서식지정자 검색되는 경우													// bonus
+			b-b-a. 서식지정자 파싱														// bonus
+				b-b-a-a. flags															// bonus
+				b-b-a-b. width															// bonus
+				b-b-a-c. precision														// bonus
+				b-b-a-d. type															// bonus
+			b-b-b. 포맷터 셋업															// bonus
+				b-b-b-a. “cspdiuxX%”													// bonus
+			b-b-c. 포맷터 오류 검사														// bonus
+				b-b-c-a. 포맷터 최대길이 : INT_MAX - 1									// bonus
+	c. 문자열 순회 (for 결과출력)		// 오류 발생하였다면, 오류 발생한 서식지정자 이전 위치까지만 출력하고 -1 리턴. 그렇지 않다면, 출력한 문자 개수 리턴
+		c-a. 서식지정자 검색되지 않는 경우 문자열 출력
+		c-b. 서식지정자 검색되는 경우
+			c-b-a. 서식지정자 파싱
+				c-b-a-a. flags															// bonus
+				c-b-a-b. width															// bonus
+				c-b-a-c. precision														// bonus
+				c-b-a-d. type
+			c-b-b. 포맷터 셋업
+				c-b-b-a. “cspdiuxX”														// bonus : ‘%’
+			c-b-c. 포맷터 출력
+				c-b-c-a. left_margin													// bonus
+				c-b-c-b. sign
+				c-b-c-c. prefix	
+				c-b-c-d. zero															// bonus
+				c-b-c-e. value
+				c-b-c-f. right_margin													// bonus
+	d. 가변인자 클리어
+
+-. 폴더 구조
+	|- Makefile
+	|- include
+	    |- *.h
+		ft_printf.h
+		ft_vfprintf.h
+		ft_specifier.h
+		ft_formatter.h
+		ft_output.h
+		ft_utils.h
+	|- libft
+	    |- Makefile, *.h, *.c			// e.g. ft_strlen(), ft_bzero(), ft_strchr()
+	|- src
+	    |- *.c
+		ft_printf.c
+		ft_vfprintf.c
+		ft_specifier.c
+		ft_formatter.c
+		ft_output_c(s,p,i,ui,x,ux).c
+		ft_utils.c						// e.g. ft_putnbr_base_fd(), ft_nbrlen_base()
+	|- obj
+	    |- *.o
+	|- bonus
+	    |- *.h, *.c
+		*_bonus.h, *_bonus.c			// e.g. ft_isdigit(), ft_getnbr_base(), ft_max(), ft_putpad_fd()
