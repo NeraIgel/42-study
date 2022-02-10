@@ -1,18 +1,72 @@
 [gnl]
--. 매개변수 검사
--. buf 동적할당 (외부에서 정의하는 매크로상수의 크기를 알 수 없기 때문에 엄청 큰 값이라면 정적배열로 선언 시 스택 오버플로우 위험이 있음)
--. while loop
-   루프 탈출 조건은 아래 3가지 중 하나이다.
-	a. line 발견
-	b. line 발견하지 못하고 EOF 도달
-	c. 파일읽기 오류 또는 동적할당 오류 발생
--. 후처리 작업
-   위의 루프에서의 탈출 조건 3가지 경우에 대응하는 후처리 작업을 수행한다.
-	a. 정적변수 문자열에서 line 잘라내고 재할당
-	b. 정적변수 문자열 데이터를 line에 복사시키고 정적변수는 빈 문자열 처리
-	c. 파일 읽기 오류 : 읽어들인 부분까지는 처리 가능하므로 후처리 동작 수행함
-	   동적 할당 오류 : 정적변수 문자열 처리를 할 수 없으므로 후처리 동작 수행하지 않음
--. 리소스 정리 작업
-   함수 종료 시 반드시 메모리 해제를 하기 위해서 루프에서 오류 발생 시 break 문을 사용하였다.
-	a. buf 할당 해제
-	b. EOF 도달 하였다면 정적변수까지 할당 해제
+-. 코드 흐름 (mandatory)
+	a. 매개변수 검사
+	b. buf 동적할당 (외부에서 정의하는 매크로상수의 크기를 알 수 없기 때문에 엄청 큰 값이라면 정적배열로 선언 시 스택 오버플로우 위험이 있음)
+	c. while loop
+	    루프 탈출 조건은 아래 3가지 중 하나이다.
+		c-a. line 발견
+		c-b. line 발견하지 못하고 EOF 도달
+		c-c. 파일읽기 오류 또는 동적할당 오류 발생
+	d. 후처리 작업 (ft_cut_line)
+	    위의 루프에서의 탈출 조건 3가지 경우에 대응하는 후처리 작업을 수행한다.
+		d-a. 정적변수 문자열에서 line 잘라내고 재할당
+		d-b. 정적변수 문자열 데이터를 line에 복사시키고 정적변수는 빈 문자열 처리
+		d-c. 파일읽기 오류 또는 동적할당 오류 시에는 정적변수에 데이터가 없으므로 후처리 동작 수행하지 않음
+	e. 리소스 정리 작업 (ft_gnlclear)
+	    함수 종료 시 반드시 메모리 해제를 하기 위해서 루프에서 오류 발생 시 break 문을 사용하였다.
+		e-a. buf 할당 해제
+		e-b. 정적변수 문자열이 비어있고 더 이상 읽을 내용이 없다면 정적변수까지 할당 해제
+
+-. 주요 변수 값 (line / store)
+ (1) BUFFER_SIZE=42
+	ex1) empty				ex2) \n					ex3) hi\nhello				ex4) hi\nhello\nhi hello\n
+		c. null / null			c. \n / \n				c. hi\n / hi\nhello			c. hi\n / hi\nhello\nhi hello\n
+		d. null / null			d. \n / “”				d. hi\n / hello				d. hi\n / hello\nhi hello\n
+		e. null / null			e. \n / “”				e. hi\n / hello				e. hi\n / hello\nhi hello\n
+
+								c. null / “”			c. null / hello				c. hello\n / hello\nhi hello\n
+								d. null / “”			d. hello / “”				d. hello\n / hi hello\n
+								e. null / null			e. hello / null				e. hello\n / hi hello\n
+
+														c. null / null				c. hi hello\n / hi hello\n
+														d. null / null				d. hi hello\n / “”
+														e. null / null				e. hi hello\n / null
+
+																					c. null / null
+																					d. null / null
+																					e. null / null
+
+ (2) BUFFER_SIZE=1
+	ex1) empty				ex2) \n					ex3) hi\nhello				ex4) hi\nhello\nhi hello\n
+		c. null / null			c. \n / \n				c. hi\n / hi\n				c. hi\n / hi\n
+		d. null / null			d. \n / “”				d. hi\n / “”				d. hi\n / “”
+		e. null / null			e. \n / “”				e. hi\n / “”				e. hi\n / “”
+
+								c. null / “”			c. null / hello				c. hello\n / hello\n
+								d. null / “”			d. hello / “”				d. hello\n / “”
+								e. null / null			e. hello / null				e. hello\n / “”
+
+														c. null / null				c. hi hello\n / hi hello\n
+														d. null / null				d. hi hello\n / “”
+														e. null / null				e. hi hello\n / “”
+
+																					c. null / “”
+																					d. null / “”
+																					e. null / null
+
+-. 코드 흐름 (bonus)
+	a. 매개변수 검사
+	b. buf 동적할당
+	c. node 검색
+		c-a. 정적 변수 head node를 이용하여, 동일한 fd 값을 가지는 노드 검색
+		c-b. 검색된 노드가 없으면, 새로 동적할당 (이 과정에서 문자열 데이터 저장공간도 미리 할당하여 빈 문자열 처리)
+		c-c. 신규 노드는 맨 앞에 위치할 수 있게끔, prev와 next 지정 (삭제 편의성을 위하여 양방향 리스트로 구현하였으며 구현 편의를 위하여 head node 사용)
+	d. line 검색 & store 재할당
+		d-a. store 문자열에서 line 검색
+		d-b. store 문자열에서 line 검색되지 않으면, file 내용 읽어들인 후 문자열 덧붙이기 (read 정상 수행 시에만)
+	e. 후처리 작업
+		e-a. store 문자열에서 line 잘라내고 재할당
+		e-b. store 문자열이 비어있고 더 이상 파일을 읽어들일 수 없다면 문자열 데이터 할당 해제
+	f. node 할당 해제
+		f-a. store 문자열이 할당 해제된 경우에는 더 이상 수행할 동작이 없다는 것으로 판단하여 해당 노드는 할당 해제
+	g. buf 할당 해제

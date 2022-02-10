@@ -5,16 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: heha <heha@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/03 20:30:30 by heha              #+#    #+#             */
-/*   Updated: 2022/01/03 20:32:18 by heha             ###   ########.fr       */
+/*   Created: 2022/02/08 18:01:54 by heha              #+#    #+#             */
+/*   Updated: 2022/02/09 16:36:27 by heha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
 
+# include <stdbool.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+typedef struct s_list
+{
+	int				fd;
+	char			*store;
+	struct s_list	*prev;
+	struct s_list	*next;
+}	t_list;
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);

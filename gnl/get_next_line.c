@@ -5,15 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: heha <heha@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/24 17:24:28 by heha              #+#    #+#             */
-/*   Updated: 2022/01/04 13:24:53 by heha             ###   ########.fr       */
+/*   Created: 2022/02/08 15:33:35 by heha              #+#    #+#             */
+/*   Updated: 2022/02/09 12:49:10 by heha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <limits.h>
 
-static _Bool	ft_find_line(const char *s, char **line)
+static bool	ft_find_line(const char *s, char **line)
 {
 	char	*find;
 
@@ -24,10 +23,7 @@ static _Bool	ft_find_line(const char *s, char **line)
 		if (find)
 			*line = ft_strndup(s, find - s + 1);
 	}
-	if (*line)
-		return (1);
-	else
-		return (0);
+	return (*line != NULL);
 }
 
 static char	*ft_strappend(char *dst, char const *src)
@@ -53,7 +49,7 @@ static char	*ft_strappend(char *dst, char const *src)
 	return (new);
 }
 
-static char	*ft_cut_line(char *s, char **line, _Bool isEOF)
+static char	*ft_cut_line(char *s, char **line, bool isEOF)
 {
 	char	*remain;
 	size_t	str_len;
@@ -77,14 +73,14 @@ static char	*ft_cut_line(char *s, char **line, _Bool isEOF)
 	return (remain);
 }
 
-static void	ft_gnlclear(char **buf, char **store, _Bool isEOF)
+static void	ft_gnlclear(char **buf, char **store, bool isEOF)
 {
-	if (buf)
+	if (*buf)
 	{
 		free(*buf);
 		*buf = NULL;
 	}
-	if (store && isEOF)
+	if (*store && **store == '\0' && isEOF)
 	{
 		free(*store);
 		*store = NULL;
@@ -98,7 +94,7 @@ char	*get_next_line(int fd)
 	char			*line;
 	static char		*store;
 
-	if (fd < 0 || fd > OPEN_MAX || BUFFER_SIZE < 1)
+	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)

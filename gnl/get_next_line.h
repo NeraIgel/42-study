@@ -5,14 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: heha <heha@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/24 17:19:15 by heha              #+#    #+#             */
-/*   Updated: 2022/01/03 14:33:27 by heha             ###   ########.fr       */
+/*   Created: 2022/02/08 15:32:49 by heha              #+#    #+#             */
+/*   Updated: 2022/02/08 15:34:38 by heha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# include <stdbool.h>
 # include <stdlib.h>
 # include <unistd.h>
 

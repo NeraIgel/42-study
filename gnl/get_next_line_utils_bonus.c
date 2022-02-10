@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: heha <heha@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/03 20:34:29 by heha              #+#    #+#             */
-/*   Updated: 2022/01/03 20:35:02 by heha             ###   ########.fr       */
+/*   Created: 2022/02/08 18:02:41 by heha              #+#    #+#             */
+/*   Updated: 2022/02/08 18:02:52 by heha             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		new = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
 		if (!new)
 			return (NULL);
-		ft_strlcpy(new, s1, len1 + 1);
-		ft_strlcpy(new + len1, s2, len2 + 1);
+		if (ft_strlcpy(new, s1, len1 + 1) >= (len1 + 1))
+			return (NULL);
+		if (ft_strlcpy(new + len1, s2, len2 + 1) >= (len2 + 1))
+			return (NULL);
 	}
 	return (new);
 }
