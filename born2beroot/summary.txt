@@ -1,0 +1,699 @@
+[born2beroot]
+-. 가상머신
+	a. 개요
+		: 물리적으로 존재하는 컴퓨터가 아닌, 다른 컴퓨터가 만들어내는 가상의 컴퓨터를 말한다.
+		  가상 머신은 크게 시스템 가상 머신과 프로세스 가상 머신으로 나뉘는데, 과제에서 사용되는 형태는 시스템 가상 머신이다.
+			* 시스템 가상 머신 : 운영체제 단계부터 가상화 하는 형태이며, 일반적으로 하나의 컴퓨터에서 다양한 운영체제를 사용하고자 할 때 활용된다. (e.g. VirtualBox, VMware)
+			* 프로세스 가상 머신 : 하나의 프로세스만을 위해 생성되고 그 프로세스가 끝나면 없어지며, 일반적으로 실제로 존재하지 않는 기계를 에뮬레이트하고 프로그래밍 언어의 하드웨어 추상화를 위해 사용된다. (e.g. .NET, JVM)
+	b. 목적
+		b-a. 하나의 컴퓨터로 동시에 서로 다른 2개 이상의 운영체제를 실행하고 싶을 때
+			: 호환되지 않는 프로그램 사용을 원하는 경우가 해당된다.
+		b-b. 하나의 컴퓨터 자원을 여러 명에게 나누어 주고 싶은데, 각 사용자 간의 상호 간섭을 없애고 싶을 때
+			: 클라우드 등에서 사용하는 가상 머신이 이러한 경우에 해당된다.
+		b-c. 컴퓨터의 다른 부분에는 영향을 주지 않는 독립 환경을 만들고 싶을 때
+			: 인터넷 뱅킹, 결제 등의 목적으로 각종 보안 프로그램, 인증 프로그램을 설치해야 하는 경우에 해당되며 이럴 때에는 가상 머신을 활용해볼 수도 있다.
+	c. 용어
+		c-a. 에뮬레이션
+			: 모든 부품의 모든 기능을 소프트웨어적으로 구현하는 방식을 말한다.
+			  이 방식은 가장 속도가 떨어지는 방식이나, 범용성은 가장 뛰어나다.
+		c-b. 가상화
+			: CPU 등 주요 부품의 구현에서 하드웨어의 기능 지원을 받는 방식을 말한다.
+			  이 방식은 속도가 빠르다는 장점이 있으나, 하드웨어 기능에 종속되는 측면이 있기 때문에 범용성이 상대적으로 떨어진다.
+		c-c. 반가상화
+			: 완전한 에뮬레이션/가상화를 포기하고, 가상 머신 내에서 설치될 OS에 수정을 가하거나 전용 드라이버를 사용하여 하드웨어에 직접 접근하는 방식을 말한다.
+			  이 방식은 속도가 가장 빠르나, 하드웨어 기능 뿐만이 아니라 운영체제 및 드라이버에도 종속성이 생기기 때문에 범용성이 가장 떨어진다.
+		c-d. 하이퍼바이저
+			: 호스트 컴퓨터로 다수의 운영체제를 동시에 실행하기 위한 논리적 플랫폼이다.
+			  즉, 하이퍼바이저는 가상 머신을 생성하고 구동 및 관리하는 소프트웨어이며, 게스트 운영체제를 실제의 물리적인 장치 리소스에서 분리시킨다.
+	d. 하이퍼바이저 위치와 역할에 따른 분류
+		d-a. Type 1 (하이퍼바이저 가상화)
+			: Host OS 없이 하드웨어에 하이퍼바이저를 설치하여 사용하는 방식이다.
+			  종류로는 Xen, MS hyper-V, citrix, KVM 등등이 있다.
+		d-b. Type 2 (호스트 가상화)
+			: Host OS 위에 하이퍼바이저가 있고 그 위에서 게스트 운영체제가 구동되는 방식이다.
+			  종류로는 VirtualBox, VMware 등등이 있다.
+	* 가상 머신은 하드웨어 스택 전체를 가상화하는 방식으로써 일반적으로 서버 가상화에 활용되어지는데, 컨테이너는 운영체제 수준에서 프로세스를 가상화하는데 활용되는 것으로 보인다... (e.g. Docker Container)
+
+-. 소프트웨어
+	a. 개요
+		: 컴퓨터 시스템을 구성하는 주요 요소 중 하나이다.
+		  응용 프로그램과 데이터처럼, 컴퓨터의 하드웨어 상에서 구동되거나 처리되는 무형물을 뭉뚱그려 지칭하는 말이다.
+	b. 분류
+		b-a.  시스템 소프트웨어
+			b-a-a. 개요
+				: 응용 소프트웨어가 작동하는 환경을 만들거나 컴퓨터를 유지, 관리하는데 사용되는 필수적인 소프트웨어를 의미한다.
+				  시스템 소프트웨어 아래에는 하드웨어라는 하위 단계가 있으며, 시스템 소프트웨어 위에는 응용 소프트웨어라는 상위 단계가 있다.
+				  또한, 시스템 소프트웨어의 아래에 또 다른 시스템 소프트웨어가 있을 수 있고, 그 위에 또 다른 시스템 소프트웨어가 있을 수도 있다.
+				  대표적인 시스템 소프트웨어로는 운영체제, 드라이버, 유틸리티, 펌웨어 등등이 있다.
+			b-a-b. 운영체제
+				: 사용자와 컴퓨터 하드웨어 사이에 위치하여 해당 컴퓨터 시스템이 제공하는 H/W와 S/W 기능을 사용할 수 있게 해주는 인터페이스 역할을 담당한다.
+				  드라이버는 대체로 OS를 거쳐서 설치되므로 운영체제는 펌웨어 다음으로 H/W와 가장 직접적으로 관련되는 시스템 소프트웨어이다.
+				  조금 더 직접적으로 말하자면, 커널이 포함된 패키지를 운영체제라고 할 수 있겠다.
+				  대표적으로 UNIX, Linux, BSD, Mac OS, Windows 등등이 있다.
+			b-a-c. 드라이버
+				: 주변 기기의 입출력을 통제하는 시스템 소프트웨어이다.
+				: 마우스, 키보드, 모니터 등과 같은 하드웨어를 운영체제와 연결해주는 역할을 한다.
+				  하는 일은 펌웨어와 비슷하지만 펌웨어와 달리 드라이버는 컴퓨터의 CPU에서 처리된다는 점이 다르다.
+			b-a-d. 유틸리티
+				: 컴퓨터를 관리하기 위해 사용하는 시스템 소프트웨어이다.
+				  유틸리티와 응용 소프트웨어를 구분하는 중요 기준은 “프로그램을 위한 컴퓨터냐, 컴퓨터를 위한 프로그램이냐”로 정해진다.
+				  즉, “이 프로그램을 구동할 목적으로 컴퓨터를 장만했다”는 말이 나올 가능성이 있다면 그건 응용 소프트웨어이고, 그렇지 않다면 그건 유틸리티이다.
+				  따라서, 대표적인 유틸리티인 안티바이러스는 우리가 시스템을 보호하기 위해 구비하는 프로그램으로써, 그 자체가 목적이 되는 경우는 거의 없을 것이다.
+			b-a-e. 펌웨어
+				: 펌웨어는 컴퓨터에 내장되어 컴퓨터의 동작을 제어하는 기본적인 프로그램이다.
+				  하드웨어를 제어한다는 측면에서 운영체제와 역할이 유사하지만, 공장 출고 시 설치되며 응용 소프트웨어 설치를 통한 기능 추가를 할 수 없는 것들을 펌웨어라고 부른다.
+				  일반적인 소프트웨어는 보조기억장치에 저장되어 있다가 작동되는 반면, 펌웨어는 ROM 등의 읽기 전용 메모리에 새겨져 있기 때문에 내용을 바꾸기 쉽지 않다.
+				  대부분 가전제품 같은데 들어가는 단순한 펌웨어는 응용 소프트웨어 역할까지 하는 경우가 많다.
+				  대표적으로 메인보드의 BIOS, UEFI 등등이 있다.
+					* BIOS : 부트로더가 운영체제를 메모리에 띄어 올리기 전에 메인보드에 인입된 전기를 활용해 메인보드를 구동하고 운용하는 기능이다.
+					* UEFI : 통일 확장형 펌웨어 인터페이스(Unified Extensible Firmware Interface)로 BIOS를 기능적으로 개선한 형태의 메인보드 펌웨어이다.
+		b-b. 응용 소프트웨어
+			b-b-a. 개요
+				: 특정한 문제 해결이나 특정 작업에 쓰이는 소프트웨어이다.
+				  시스템 소프트웨어 위에서 구동되며, 사용자가 원하는 각종 기능들을 제공한다.
+
+-. 운영체제
+	a. 개요
+		: 사용자가 컴퓨터를 쉽게 다룰 수 있게 해주는 인터페이스이다.
+		  운영체제는 하드웨어와 소프트웨어를 관리하는 소프트웨어 전체라고 할 수 있다.
+		  하드웨어 위에 커널이 올라가고, 커널 위에서 쉘과 애플리케이션이 실행된다. 사용자는 기본적으로 쉘을 통해 애플리케이션을 실행한다. (CLI 기준)
+	b. 구성 요소
+		b-a. boot loader
+			: 부트로더란 운영체제가 시작되기 전에 미리 실행되면서 커널이 올바르게 시동되기 위해 필요한 모든 작업을 마무리하고 최종적으로 운영체제를 시동시키기 위한 목적을 가진 프로그램이다.
+			  즉, 시스템의 하드웨어를 초기화하고 운영체제의 커널을 메모리에 올려 실행시키는 시스템 소프트웨어이다.
+			  구체적으로는 메모리, 하드웨어, 코드-데이터-스택 영역 설정 및 초기화, 커널 로더와 커널 이미지 로딩, 커널 로더를 실행하여 커널 이미지가 실행되도록 한다.
+			  대표적으로 GRUB, RedBoot, U-Boot, Blob 등등이 있다.
+		b-b. kernel
+			: 응용 소프트웨어가 요청한 처리를 하드웨어에 나누어 처리를 요구하며 시스템 호출 수행, 메모리 제어 등 운영체제에서는 없어서는 안되는 요소이다. 
+			  커널은 드라이버를 이용해서 CPU나 그래픽카드와 같은 하드웨어를 제어하고 여러 응용소프트웨어들이 갖가지 다른 하드웨어 위에서 돌아가도록 호환성을 보장하기 위해 API를 제공한다.
+			  예를 들면 웹 브라우저가 화면에 점을 찍고 싶다면 커널에서 제공하는 점을 찍는 함수를 호출하고, 커널이 드라이버를 참조해서 그래픽카드에 명령해 점을 찍는 것이다.
+		b-c. shell
+			: 사용자의 지시를 해석하여 커널에게 전달하여 주는 역할을 담당한다.
+			  대표적으로 Bourne Shell(sh), Korn Shell(ksh), Bourne Again Shell(bash), C Shell(csh) 등등이 있다.
+	c. 분류
+		c-a. 임베디드 운영체제
+			: 예전에는 자체 제작한 운영체제(펌웨어)를 많이 썼지만 요즘에는 임베디드 장비에 쓰이는 하드웨어 성능이 올라가면서 리눅스 계열 커널을 많이 쓴다.
+			  시간을 중시하는 군사분야, 항공분야, 각종 산업 분야에서는 RTOS를 설치하는 경우도 많다.
+		c-b. 서버 운영체제
+			: 유닉스 계열이 점유율 1위를 차지하고 있다.
+			  유닉스 계열 운영체제는 multi-user / multi-tasking을 지원하며 뛰어난 네트워킹이 가능하기 때문에 서버 운영에 특장점을 가지고 있다.
+		c-c. 모바일 운영체제
+			: 리눅스 계열인 안드로이드와 BSD 유닉스 계열인 iOS가 있다.
+		c-d. 데스크탑 운영체제
+			: 윈도우즈가 시장 점유율 1위이다.
+
+-. Linux
+	a. 개요
+		: 컴퓨터 OS 커널의 일종인 리눅스 커널을 가리키는 말이다.
+		  리눅스 OS 커널은 원작자인 리누스 토르발스가 UNIX 계열 미닉스 OS 커널을 개량하여 만들어졌다.
+		  리눅스 OS 커널소스는 GPL 라이선스를 채택하고 있으며, 소스 코드가 공개되어 있는 대표적인 오픈 소스 소프트웨어이다.
+		  리눅스 운영체제는 리눅스 커널과 GNU 재단에서 개발한 컴포넌트들이 결합되면서 현재의 모습으로 완성되어졌다. 이로 인하여 명칭 논쟁이 발생하기도 하고 있다.
+			* GPL 라이선스 : 오픈 소스 소프트웨어 개발자 또는 판매자를 위한 라이선스이다.
+	b. 보안
+		: 리눅스 환경은 슈퍼유저, 일반유저, 그룹 등으로 파일 관리가 되고 있어 윈도우즈 등 타 OS에 비해 안전한 환경이다.
+		  그러나, 관리를 잘못하여 root 권한이 오픈된채 사용되는 경우 보안 허점이 생길 수 있기 때문에, 보안 시스템을 잘 정립해야 한다.
+		  방화벽(ufw), 안티-멀웨어 유틸, 백업 유틸 등을 사용하면서 검증된 패키지 저장소로부터 다운로드 받는 등의 노력을 하면 대체로 안전하게 관리할 수 있다.
+	c. 리눅스 배포판
+		: 리눅스 자체는 커널이기 때문에, 사용자가 이용하기 위해서는 완성된 형태가 필요하다.
+		  리눅스 배포판은 리눅스 커널을 중심으로 여러 시스템 소프트웨어 및 응용 소프트웨어들을 같이 묶어서 구성한 운영체제이다.
+		  리눅스 배포판은 리눅스 커널이 기본 바탕이고 여러 배포자들이 있기 때문에 경쟁 구도이며 선택의 자유가 있다.
+		c-a. Red Hat (서버용)
+			: 레드햇 사에서 만든 리눅스 배포판이다.
+			  레드햇 사에서는 다른 리눅스 배포판처럼 배포는 무료이고 기술 지원은 유료인 형식으로 운영하였었다.
+			  2003년 나온 버전 9가 마지막 무료 버전이며, 이후 유료화되어 Red Hat Enterprise Linux(RHEL)이 되었다. 개인용으로 무료 버전은 fedora를 지원하고 있다.
+			  레드햇 사에서는 fedora를 바탕으로 RHEL를 만들고 있다. 즉, fedora는 오픈소스 신기술 테스트베드로써 활용하고 RHEL에서는 안전성이 확인되면 기능을 추가하는 형태이다.
+		c-b. CentOS (서버용)
+			: RHEL가 유효화됨에 따라서, 무료로 RHEL을 사용하기 위한 목적으로 커뮤니티에서 만든 배포판이다.
+			  RHEL도 GPL 라이선스를 따르기 때문에 소스 코드는 공개되어 있으므로, 그 점을 이용하였다.
+			  RHEL을 무료로 사용할 수 있었다는 점에서 개인용 뿐만 아니라 기업용으로도 인기를 끌었으나, CentOS가 레드햇 사로 다시 넘어가고 CentOS 8을 마지막으로 지원을 종료하면서 장점이 퇴색되었다.
+				* 신기술 적용 순서에 관한 로드맵 : fedora -> CentOS -> RHEL (배포판 안전성은 그 반대가 된다)
+		c-c. Debian (서버용)
+			: 커뮤니티인 데비안 프로젝트에서 개발하고 있는 리눅스 배포판이다.
+			  데비안은 리눅스에서 파생된 것이 아니고, 독립적인 프로젝트이다. 그래서, 리눅스 커널과 다른 커널을 쓰는 데비안도 존재했다.
+			  데비안은 자발적인 커뮤니티에서 만드는 배포판이므로 업데이트 주기가 다소 길다. 또한, 데비안은 세련됨보다는 안전성을 보다 우선시하여 기능들을 보수적으로 채용하는 편이다.
+			  다만, 역시나 커뮤니티 기반이기 때문에 기업에서 요구하는 정도의 사후 기술지원을 받기는 어렵지만 개인용으로는 Red Hat 계열에 비하여 접근성이 편하여 선호도가 높다. 
+		c-d. CentOS vs Debian
+			: CentOS는 기업용인 RHEL을 복제하여 만들었었기도 하고 다시금 레드햇 사로 넘어가면서 기업에서 지원해준다는 장점이 있었다. 그러나, CentOS 정책 변경으로 인하여 장점이 퇴색되어지는 면이 있다.
+			  Debian은 커뮤니티 기반이므로 사후 지원을 기대하기 어렵지만 상대적으로 진입장벽이 낮고 유지보수가 쉽다는 장점이 있어서 개인이 처음 접하기에 더 적합할 수 있다. 그러나, 실무에서는 RHEL이 더 많을 수도 있다.
+			  CentOS는 RPM 패키지 형식을 가지며 YUM과 DNF를 패키지 관리자로 사용한다.
+			  Debian은 DEB 패키지 형식을 가지며 dpkg와 APT를 패키지 관리자로 사용한다.
+		c-e. 우분투 (데스크탑용)
+			: 우분투는 캐노니컬 사와 우분투 재단이 개발, 배포, 유지보수를 맡고 있다.
+			  다른 배포판에 비해 편리한 설치와 유지보수 절차, 사용자 친화적인 인터페이스를 제공하고 있기 때문에 데스크탑용 리눅스 배포판으로 인기가 좋다.
+	d. 리눅스 커널 보안 모듈
+		: 리눅스 보안 모듈 (LSM : Linux Security Modules)은 프레임워크로서 리눅스 커널이 단일한 보안 구현을 피하면서 다양한 컴퓨터 보안 모델을 지원하게 해준다.
+		  LSM은 2.6 이후 리눅스 커널 버전부터는 표준이 되었다. AppArmor, SELinux, Smack, TOMOYO 리눅스가 현재 공식 커널에서 받아들여진 모듈이다.
+		  LSM은 리눅스 커널에 가능한 최소의 변화를 주면서 강제적 접근 통제 모듈의 성공적인 구현이라는 특정한 필요성을 제공하기 위해 설계되었다.
+		  LSM은 커널에서 사용자 수준 시스템 호출이 아이노드나 태스크 컨트롤 블록 같은 중요한 내부 커널 객체에 접근을 야기하려고 하는 모든 지점에 “훅”을 삽입한다.
+			* 후킹(hooking)은 운영체제나 응용 소프트웨어 등의 각종 프로그램에서 소프트웨어 구성 요소 간에 발생하는 함수 호출, 메시지, 이벤트 등을 중간에서 바꾸거나 가로패는 명령, 방법, 기술이나 행위를 말한다.
+			  이 때 이러한 간섭된 함수 호출, 이벤트 또는 메시지를 처리하는 코드를 훅(hook)이라고 한다. 예를 들어, 특정한 API를 후킹하게 되면 해당 API의 리턴값을 조작하는 등의 동작을 수행할 수 있다.
+		d-a. SELinux (Security-Enhanced Linux)
+			: 보안 강화 리눅스 (SELinux : Security-Enhanced Linux)는 레드햇 계열의 배포판에서 주로 사용하는 LSM이다.
+			  SELinux는 파일 및 네트워크에 대한 액세스 뿐만 아니라 사용자 프로그램 및 시스템 서비스를 제한하는 필수 액세스 제어 정책을 실행한다.
+			  SELinux는 inode를 기준으로 파일 시스템 객체를 식별하고 접근 제어를 실행한다. SELinux는 시스템 전체에 대한 액세스 정책을 관리하기 때문에 다소 설정이 어려운 측면이 있다.
+		d-b. AppArmor (Application Armor)
+			: AppArmor는 데비안 계열의 배포판에서 주로 사용하는 LSM이다. 개발은 캐노니컬 사에 의해 지원된다.
+			  AppArmor는 SELinux를 대체하는 한 부분으로서 제공되는데, SELinux가 다소 설치 및 관리하기 어렵다는 점 때문이었다.
+			  AppArmor는 파일 경로를 기준으로 파일 시스템 객체를 식별하고 접근 제어를 실행한다. AppArmor는 개별 응용 소프트웨어에 대하여 액세스 정책을 관리하기 때문에 다소 설정이 쉽다.
+			  AppArmor는 enforce 모드와 complain 모드 2가지가 존재한다.
+				* enforce 모드 : 허가되지 않은 파일에 대한 접근을 거부하는 모드
+				* complain 모드 : 응용 소프트웨어가 허용되지 않은 행동을 할 경우에 로그를 남겨주는 모드 (단, 중지시키지는 않는다.)
+		d-c. SELinux vs AppArmor
+			  SELinux는 “security labels”를 지원하는 파일시스템을 요구해서 NFS를 통해 마운트된 파일들에 대한 접근 통제를 제공할 수 없다. 그에 반해 AppArmor는 파일시스템에 상관이 없다.
+			  SELinux는 inode를 기준으로 접근 제어를 실행하기 때문에 액세스 불가능 파일에 대하여 하드 링크가 생성될 때 하드 링크를 통한 액세스를 거부한다. 그에 반해 AppArmor는 이 경우 액세스가 허용된다.
+	e. 리눅스 패키지 매니저
+		: 패키지 매니저 (package manager)는 운영체제를 위해 일정한 방식으로 컴퓨터 프로그램의 설치, 업그레이드, 구성, 제거 과정 등을 자동화하는 소프트웨어 도구들의 모임이다.
+		  패키지 매니저는 아카이브 파일로 된 소프트웨어 배포판과 데이터인 패키지 (package)를 다룬다. 패키지에는 소프트웨어의 이름, 목적에 관한 설명, 체크섬, 의존성 목록과 같은 메타데이터가 포함된다.
+		  설치 시에 메타데이터는 로컬 패키지 데이터베이스에 저장된다. 그리고, 패키지 매니저들은 소프트웨어 불일치, 존재하지 않은 필수 항목을 방지하기 위해 소프트웨어 의존성과 버전 정보의 데이터베이스를 유지보수하는 것이 보통이다.
+		  소프트웨어 개발에 쓰는 외부 라이브러리 또한 이렇게 패키지 매니저를 통해 관리하는 것이 보편화 되었으며, 이러한 방식을 통해 의존성 관리에 있어서 편의성이 향상되었다.
+		e-a. RPM (Red Hat Package Manager) & DNF (Dandified Yum)
+			: RPM은 원래 레드햇에서 사용되었던 패키지 파일 형식이었지만 현재는 많은 RPM 기반 배포판이 사용되어지고 있다.
+			  RPM은 두 가지를 의미하는데, 하나는 RPM 패키지 형식 그 자체와 또 하나는 RPM 패키지를 관리하는 도구이다.
+			  레드햇 계열의 배포판에서 사용할 수 있는 패키지 관리 도구는 RPM과 DNF로 구분해볼 수 있다.
+			  RPM (Red Hat Package Manager)은 인터넷 연결 유무와 상관없이 패키지 파일이 있으면 설치/삭제가 가능하나 의존성 문제를 해결해주지 않는다.
+			  DNF (Dandified Yum)는 인터넷을 통해서 필요한 파일들을 저장소에서 자동으로 다운로드해서 설치하는 방식이므로 사용이 더 편리하며 의존성 문제를 해결해준다.
+			  원래 레드햇 계열에서는 YUM이라는 패키지 관리 도구를 사용했었지만 DNF가 YUM을 개선한 도구로써 등장하였기 때문에 최신 버전에서는 DNF를 사용하면 될 것이다.
+				* YUM -> DNF 변경된 이유 : YUM은 오랜 기간 동안 수정되지 못한 문제가 있어서 성능 저하가 발생하고 있었고, python으로 작성되어 있어 확장 시스템이 python만 지원했었었다.
+		e-b. dpkg (Debian package) & APT (Advanced Packaging Tool), apt-get, apt-cache, apt, Aptitude
+			: dpkg (Debian package)는 데비안 패키지 관리 시스템의 기초가 되는 소프트웨어이다. dpkg 명령어가 .deb 패키지의 설치, 삭제, 정보 제공을 위해 사용된다.
+			  dpkg 그 자체는 저레벨의 도구이며, APT와 같은 고급 도구들이 복잡한 패키지 관계와 패키지를 원격에서 받아오는 등의 일을 한다.
+			  dpkg는 레드햇 계열에서의 RPM과 비슷한 역할을 수행한다고 볼 수 있다.		
+			  APT (Advanced Packaging Tool)는 레드햇 계열의 DNF와 비슷한 역할을 수행한다고 볼 수 있다.
+			  APT 또한 인터넷을 통해서 필요한 파일들을 저장소에서 자동으로 다운로드해서 설치하므로 의존성 문제를 해결해준다.
+			  APT는 본래 데비안의 .deb 패키지와 함께 동작할 목적으로 dpkg를 위한 프론트엔드로 고안되었으나 그 뒤로 RPM 패키지 매니저 시스템과도 함께 동작하도록 수정되었다.
+			  APT는 데비안 계열에서 내부적으로 dpkg를 사용하여 동작을 수행한다.
+			  APT를 사용할 수 있는 tool에는 apt-get, apt-cache, apt, Aptitude 등등이 있다.
+			  apt-get은 install, update, clean을 위한 tool인 반면, 새로운 패키지를 찾는 데에는 apt-cache를 이용한다.
+			  apt-get과 apt-cache를 모두 사용하는 방법은 불편한 점이 있어서, 이를 보완한 명령어가 apt이다. apt는 apt-get과 apt-cache에서 자주 사용되는 명령어를 모아둔 형태로 볼 수 있다.
+			  Aptitude는 apt보다 개선된 형태의 명령어이다. Aptitude는 어떤 패키지를 삭제할 때 사용되지 않는 패키지까지 자동으로 삭제시켜줄 수 있으며, 설치/제거 중 충돌이 일어날 경우 Aptitude는 해결 방법을 제시해주기도 한다.
+				* 어떤 명령어를 사용하는게 좋을까? : 레드햇 계열에서는 DNF가 YUM을 완전히 대체하는 것처럼 보인다.
+								     그러나, 데비안 계열에서는 Aptitude가 다른 명령어들을 모두 대체하는 것처럼 보이지는 않는다.
+								     왜냐하면, 경우에 따라서 패키지를 설치할 때 잘못되는 경우도 있는 것으로 보이며 특정 패키지를 설치할 때에는 다른 명령어들을 활용해야 하는 경우도 있는 것으로 보인다.
+	f. 리눅스 디렉토리
+		f-a. 디렉토리 구조
+			: 리눅스 디렉토리는 트리 형태의 구조를 보이며 최상위 디렉토리는 “/“ (Root File System)이다.
+			  리눅스 디렉토리 구조는 file system 계층구조 표준(FHS, File System Hierarchy Standard)과 호환된다.
+			  처음 설치 시에 생성되는 디렉토리는 각 파일의 목적이나 시스템의 특징에 따라 분류되어 있으므로, 주요 디렉토리의 이름을 함부로 수정하면 안 된다.
+				* / : 최상위 디렉토리이다. 디스크나 파티션이 여러 개라도 전체 시스템에서 하나 뿐이다.
+				* /bin : 기본 명령어 실행 파일이 위치한다.
+				* /boot : 커널과 부트로더 설정파일이 위치한다.
+				* /dev : 디바이스 파일이 위치하며, 용량 없는 파일로 구성된 가상 디렉토리로 존재한다.
+				* /etc : 시스템 환경설정 파일이 위치한다.
+				* /home : 일반 사용자의 홈 디렉토리가 위치한다.
+				* /lib : 시스템 공유 라이브러리가 위치한다.
+				* /lost+found : 부팅 시 파일시스템이 손상되었을 때 훼손된 파일이 위치하며, fsck가 사용하는 디렉토리이다.
+				* /proc : process와 system 정보를 제공하기 위한 가상 파일 시스템이다. 디스크 상에 실제 존재하는 것이 아니라 현재 메모리에 존재하는 모든 작업들이 파일 형태로 이루어져 있어 가상 파일 시스템이라고 부른다.
+				* /root : 슈퍼유저의 홈 디렉토리이며, 보안 상 따로 분류되어 있다.
+				* /sbin : 시스템 관리자용 명렁어 실행 파일이 위치한다.
+				* /tmp : 임시 파일 디렉토리이다. 누구나 파일을 생성할 수 있으나 자신이 생성한 것만 삭제 가능하다.
+				* /usr : 프로그램 설치 시 패키지의 대부분 파일이 위치한다.
+				* /var : 시스템 운영 상에 생성되는 정보가 위치한다.
+					* /var/log : 로그 파일이 위치한다.
+		f-b. 디스크 파티션
+			: 디스크 파티션(disk partition) 작업은 하드 디스크 드라이브의 기억 공간을 “파티션”이라 알려진 별도의 데이터 영역으로 분할하는 것을 말한다.
+			  디스크가 여러 개의 파티션으로 나뉘면 다른 카테고리의 디렉토리와 파일들은 개별 파티션에 저장된다. 이렇게 함으로써, 각 파티션마다 독립적인 파일 시스템으로 운용할 수도 있고 데이터 백업 및 업그레이드가 용이하다.
+			f-b-a. 파티션 분류
+				: 파티션은 주 파티션(primary), 확장 파티션(extended), 논리 드라이브(logical), 스왑 파티션(swap)으로 구분한다.
+				f-b-a-a. 주 파티션
+					: 부팅이 가능한 기본 파티션이다.
+					  MBR 방식 기준으로는 최대 4개까지만 생성 가능하다. GPT 방식에서는 거의 제한이 없다고 볼 수 있다.
+					  MBR 방식 기준으로는 4개 이상의 파티션을 사용해야할 때, 하나의 확장 파티션을 생성하여 확장 파티션 안에 여러 개의 논리 드라이브를 추가해서 데이터를 저장한다.
+				f-b-a-b. 확장 파티션
+					: 하나의 물리적 디스크에 1개만 생성 가능하다.
+					  확장 파티션은 데이터 저장 영역을 위한 것이 아니라 논리 드라이브를 담아두는데 의의를 가진다.
+				f-b-a-c. 논리 드라이브
+					: 확장 파티션 내에 생성된다.
+					  12개 이상 생성하지 않는 것을 권장하며, MBR 방식으로는 5번 이후의 파티션 번호가 붙여진다.
+				f-b-a-d. 스왑 파티션
+					: 하드 디스크의 일부를 RAM 메모리처럼 사용하는 영역이다.
+					  주 파티션 또는 논리 드라이브 내에 생성되며, 리눅스 설치 시 반드시 설치되어야 하고 스왑 영역의 크기는 일반적으로 물리 메모리의 2배 크기로 설정한다.
+			f-b-b. 파티션 섹터
+				: 파티션을 설정할 때 파티션의 정보를 저장하기 위한 별도 공간이 필요하며, 크게 MBR(Master Boot Record)과 GPT(GUID Partition Table) 방식으로 나뉜다.
+				  파티션 내부는 파일 시스템을 통해 섹터별 클러스터 단위로 데이터를 구조적으로 저장하게끔 되어 있다.
+				f-b-b-a. MBR (Master Boot Record)
+					: MBR은 구 BIOS 시절 만들어진 방식으로, 주소가 32bit여서 최대 용량이 2TiB로 제한되며 주 파티션 개수가 4개로 제한되어 파티션을 더 필요로 할 때 확장 파티션을 생성해서 논리 드라이브를 추가해야 한다.
+				f-b-b-b. GPT (GUID Partition Table)
+					: GPT는 MBR의 한계를 극복하기 위해 만들어진 방식으로, UEFI와 함께 보급이 시작되었으며 주소가 64bit로 확장되어 최대 용량 제한이 없다시피 하고 주 파티션의 개수도 최대 128개까지 가능하다.
+		f-c. 장치 이름
+			f-c-a. 디스크 이름
+				f-c-a-a. IDE HDD : /dev/hd? (? = a, b, …h(가능))
+				f-c-a-b. SCSI HDD : /dev/sd? (? = a, b, …g(가능))
+				f-c-a-c. SATA HDD : /dev/sd? (? = a, b, …g(가능))
+				f-c-a-d. LAN card : /dev/eth? (? = 0, 1…)
+				f-c-a-e. CD ROM : /dev/cdrom
+			f-c-b. 파티션 이름 (첫 번째 하드디스크 on MBR)
+				f-c-b-a. primary : /dev/sda# (# = 1, 2, …4(가능))
+				f-c-b-b. logical : /dev/sda# (# = 5, 6, …16(가능))
+		f-d. 파일 시스템
+			: 파일 시스템(file system)은 파일의 실제 데이터와 메타 데이터를 유지/저장하는 체계를 말한다.
+			  각 운영체제별로 고유의 파일 시스템이 존재하고, 리눅스는 고유의 파일 시스템인 EXT(Extended File System)뿐만 아니라 다양한 파일 시스템을 지원한다.
+		f-e. 마운트
+			: 유닉스 및 리눅스 계열 운영체제들은 여러 개의 주변 장치에 각각의 이름을 붙이지만, 그 주변 장치에 존재하는 파일들은 전부 하나의 계층 구조 아래에 관리된다. (최상위 디렉토리 : “/“)
+			  만일, 주변 장치에 있는 파일에 접근하려면, 이 주변 장치의 파일 시스템을 어떤 디렉토리에 놓을 것인지를 운영체제에게 알려야 한다. 이 것을 가리켜 “파일 시스템을 마운트 한다.”고 일컫는다.
+			  대표적으로, 하드디스크나 ODD 같은 보조기억장치는 루트 디렉토리 아래에 있는 하위 디렉토리의 하나인 것처럼 편입되게끔 처리하고, 이 디렉토리로 접근하여 해당 장치를 사용하는 형태를 가진다.
+		f-f. LVM (Logical Volume Manager)
+			: LVM (Logical Volume Manager)은 여러 개의 하드디스크를 합쳐서 한 개의 파일 시스템처럼 사용하는 것을 의미한다.
+			  리눅스에서 디스크를 사용하는 기본적인 방법은 디스크를 파티션으로 나누어 각각의 디렉토리에 파일 시스템으로 마운트 한 뒤 지정된 위치에 데이터를 저장해서 사용하는 것이다.
+			  LVM을 적용하게 되면, 디스크를 추가/변경할 때 물리적인 부분을 건드릴 필요 없이 여러 디스크를 하나로 뭉쳐서 사용할 수도 있고 하나의 디스크를 여러 디스크인 것처럼 나누어 사용할 수도 있다.
+			  LVM을 적용하게 되면, 디스크를 좀 더 유연하게 사용하기 위해 물리적인 파티션을 논리적인 볼륨으로 바꿔서 사용하며 하나의 논리적인 볼륨 그룹으로 묶은 뒤 다시 필요한 크기만큼 나눠서 사용할 수 있다.
+				* Physical Volume (물리 볼륨) : /dev/sda1, /dev/sdb1, /dev/sdc1
+				* Volume Group (논리 그룹) : 물리 볼륨을 합쳐서 만들어진 하나의 물리적 그룹이다.
+				* Logical Volume (논리 볼륨) : 볼륨 그룹을 나눠서 만든 공간을 말하며, 논리적인 파티션으로 볼 수 있다.
+				* Physical Extent : PV가 갖는 일정한 블록
+				* Logical Extent : LV가 갖는 일정한 블록
+		f-f. RAID (Redundant Array of Inexpensive Disks)
+			: RAID (Redundant Array of Inexpensive Disks)는 여러 개의 물리적 디스크를 하나의 논리적 디스크로 인식하여 작동하게 하는 기술이다.
+			  여러 개의 하드 디스크에 일부 중복된 데이터를 나눠서 저장하기 때문에, 하나의 디스크에 문제가 생겨도 지속적으로 사용 가능하다는 장점이 있다.
+			  안전성 향상이 목적이나, 구성 방식에 따라서 안정성보다는 공간 효율성을 더 증대하는 방식으로도 활용할 수 있다.
+
+-. Debian Server 구축을 위한 필수 개념과 관리자의 명령어
+	a. 패키지 관리
+		a-a. dpkg (Debian package)
+			a-a-a. 개요
+				: Debian 계열의 리눅스 배포판에서 사용하는 패키지 관리 도구이다.
+			a-a-b. 사용법
+				a-a-b-a. 설치 : sudo dpkg -i “.deb파일명”
+				a-a-b-b. 삭제 : sudo dpkg -r “패키지명”
+				a-a-b-c. 검색 : sudo dpkg -l “패키지명”
+							* sudo dpkg -l | grep “패키지명(일부분)” : 패키지명 풀네임을 모르는 경우 이렇게도 활용해볼 수 있다.
+				a-a-b-d. 전체 목록 검색 : sudo dpkg -l
+		a-b. APT (Advanced Packaging Tool)
+			a-b-a. 개요
+				: Debian 계열의 리눅스 배포판에서 주로 사용하는 패키지 관리 도구이다. 패키지 의존성 문제를 해결해준다.
+			a-b-b. 사용법
+				a-b-b-a. 설치 : sudo apt install “패키지명” or sudo apt-get install “패키지명”
+				a-b-b-b. 삭제 : sudo apt remove “패키지명” or sudo apt-get remove “패키지명”
+				a-b-b-c. 환경설정까지 삭제 : sudo apt purge “패키지명” or sudo apt-get purge “패키지명”
+				a-b-b-d. 목록 업데이트 : sudo apt update or sudo apt-get update
+				a-b-b-e. 기본 업그레이드 : sudo apt upgrade or sudo apt-get upgrade
+				a-b-b-f. 패키지 정보 조회 : sudo apt show “패키지명” or sudo apt-cache show “패키지명”
+				a-b-b-g. 관련 패키지 검색 : sudo apt search “키워드” or sudo apt-cache search “키워드”
+	b. 보안 설정
+		b-a. AppArmor (Application Armor)
+			b-a-a. 개요
+				: Debian 계열의 리눅스 배포판에서 주로 사용하는 리눅스 커널 보안 모듈이다.
+				  Debian 설치 시, 기본적으로 같이 설치되어 있으나 아래 명령어들을 이용해서 구동 및 설치 여부를 확인해볼 수도 있다.
+				  프로그램의 프로필을 통하여 개별 응용 소프트웨어들에 대하여 네트워크 액세스, 파일 액세스 등등의 액세스 정책을 제한하고 관리한다.
+			b-a-b. 프로필 경로
+				: /etc/apparmor.d/
+			b-a-c. 설치
+				b-a-c-a. 설치 확인 : sudo dpkg -l apparmor
+				b-a-c-b. 설치 : sudo apt install apparmor
+						sudo apt install apparmor-utils
+			b-a-d. 사용법
+				b-a-d-a. 작동 확인 : sudo aa-enabled
+				b-a-d-b. 상태 확인 : sudo aa-status
+		b-b. UFW (Uncomplicated Firewall)
+			b-b-a. 개요
+				: Debian 계열의 리눅스 배포판에서 주로 사용하는 방화벽 관리 프로그램이다.
+				  서버용으로 사용하는 운영체제이므로 네트워크 보안이 필수적인데, 제한된 IP 주소 또는 Port 번호에 대해서만 네트워크 접속을 허용하게 함으로써 허가되지 않은 사용자가 접속하지 못하게끔 설정할 수 있다.
+			b-b-b. 설치
+				b-b-b-a. 설치 확인 : sudo dpkg -l ufw
+				b-b-b-b. 설치 : sudo apt install ufw
+			b-b-c. 사용법
+				b-b-c-a. 매뉴얼 : sudo ufw help
+				b-b-c-b. 활성화 : sudo ufw enable
+				b-b-c-c. 작동 및 상태 확인 : sudo ufw status verbose
+				b-b-c-d. 기본 정책 설정 : sudo ufw default deny[allow]
+				b-b-c-e. 특정 포트 허용 : sudo ufw allow “포트번호”
+				b-b-c-f. 특정 포트 차단 : sudo ufw deny “포트번호”
+				b-b-c-g. 특정 규칙 삭제 : sudo ufw delete “규칙명 or 규칙번호” (e.g. sudo ufw delete allow 4242)
+	c. 서버 설정
+		c-a. systemd
+			c-a-a. 개요
+				: systemd는 사용자 공간을 부트스트래핑하고 최종적으로 모든 프로세스들을 관리하는 init 시스템이다.
+				  systemd의 기본 목표들 가운데 하나는 모든 배포판들에 대하여 기본 리눅스 구성과 서비스 동작을 통일하는 것이다.
+				  systemd의 채택이 증가되어 기능이 복잡해지면서, 각 유틸리티는 본연의 기능을 수행하고 여러 유틸리티들을 조합하여 문제를 해결해나간다는 UNIX의 철학에 위반된다는 비평도 받고 있다.
+					* 프로그램 : 디스크에 저장되어 있는 실행코드를 의미한다.
+					* 프로세스 : 프로그램을 구동하여 메모리 상에서 실행되는 작업 단위를 지칭한다.
+						     프로세스는 포그라운드(forground) 프로세스와 백그라운드(background) 프로세스로 분류해볼 수 있다.
+						     포그라운드 프로세스는 사용자와의 대화창구인 표준입출력장치 즉 터미널과 키보드를 통해 대화하는 프로세스를 의미한다.
+						     백그라운드 프로세스는 입력장치에 대하여 터미널과의 관계를 끊은 프로세스를 의미한다. 즉, 사용자로부터 키보드를 통하여 입력을 전달받지 않고 스스로 동작하는 프로세스이다.
+					* 데몬 : 서비스의 요청에 대해 응답하기 위해 오랫동안 실행중인 백그라운드 프로세스이다. 프로세스 이름이 ‘d’로 끝난다.
+						 데몬 프로세스는 백그라운드 프로세스 중에서도 부모프로세스(PPID)가 1 혹은 다른 데몬 프로세스를 가진 프로세스로 분류해볼 수 있다.
+						 따라서, 데몬이 아닌 일반적인 백그라운드 프로세스는 부모 프로세스가 종료될 때 같이 종료시킬 수 있는데 반하여, 데몬 프로세스는 그렇지 않다. 
+			c-a-b. 주요 구성
+				c-a-b-a. systemd : init 데몬
+				c-a-b-b. systemd-udevd : 장치 관리자 데몬
+				c-a-b-c. systemd-logind : 사용자 로그인, 세션 관리 데몬
+				c-a-b-d. systemd-journald : 다른 데몬들의 출력결과 및 로그들을 저장하는 데몬
+				c-a-b-e. systemd-networkd : 네트워크 관리 데몬
+				c-a-b-f. systemd-resolved : DNS 해석 데몬
+				c-a-b-g. systemd-timesyncd : 시간 동기화 데몬
+				c-a-b-h. systemd-bool : UEFI 부트로더
+			c-a-c. 설정파일 경로
+				  /etc/systemd/
+			c-a-d. 사용법
+				c-a-d-a. 서비스 관리
+					c-a-d-a-a. 시작 : sudo systemctl start “서비스명”
+					c-a-d-a-b. 종료 : sudo systemctl stop “서비스명”
+					c-a-d-a-c. 재시작 : sudo systemctl restart “서비스명”
+					c-a-d-a-d. 작동 및 상태 확인 : sudo systemctl status “서비스명”
+					c-a-d-a-e. 갱신 : sudo systemctl reload “서비스명” (서비스 중지되지 않고 설정값 반영시킨다.)
+					c-a-d-a-f. 활성화 : sudo systemctl enable “서비스명”
+					c-a-d-a-g. 비활성화 : sudo systemctl disable “서비스명”
+					c-a-d-a-h. 모든 서비스 목록 확인 : sudo systemctl list-unit-files
+				c-a-d-b. 시스템 명령
+					c-a-d-b-a. 종료 : sudo systemctl halt
+					c-a-d-b-b. 재시작 : sudo systemctl reboot
+				c-a-d-c. 로그 관리
+					c-a-d-c-a. 실시간 모니터링 : sudo journalctl -f
+					c-a-d-c-b. 우선순위 로그 조회 : sudo journalctl -p “우선순위”
+					c-a-d-c-c. 특정날짜 로그 조회 : sudo journalctl —since “yyyy-mm-dd”
+					c-a-d-c-d. 특정 UID 로그 조회 : sudo journalctl _UID=“UID”
+					c-a-d-c-e. 특정 명령 로그 조회 : sudo journalctl _COMM=“명령어”
+						* 우선순위 : emerg(0) > alert(1) > crit(2) > err(3) > warn(4) > notice(5) > info(6) > debug(7)
+		c-b. hostname
+			c-b-a. 개요
+				: 호스트명 (hostname)은 네트워크에 연결된 장치(컴퓨터, 파일 서버, 복사기 등)들에게 부여되는 고유한 이름이다.
+				  호스트명은 보통 사람이 읽고 이해할 수 있는 이름으로 지어지며, 흔히 IP 주소나 MAC 주소와 같은 기계적인 이름 대신 쓸 수 있다.
+			c-b-b. 사용법
+				c-b-b-a. 설정 확인 : sudo hostnamectl
+				c-b-b-b. 설정 변경 : sudo hostnamectl set-hostname “변경할 이름”
+		c-c. SSH (Secure SHell)
+			c-c-a. 개요
+				: SSH (Secure SHell)는 원격 호스트에 접속하기 위해 사용되는 보안 프로토콜을 의미한다.
+				  SSH는 암호화 기법을 사용하기 때문에, 통신이 노출된다고 하더라도 제 3자가 이해할 수 없는 암호화된 문자로 보이게 만든다.
+				  SSH는 기존의 rsh, rlogin, 텔넷 등을 대체하기 위해 설계되었으며, 강력한 인증 방법 및 안전하지 못한 네트워크에서 안전하게 통신할 수 있는 기능을 제공한다. 기본적으로 22번 포트를 사용한다.
+			c-c-b. 작동 원리
+				: 서버에 접속할 때 비밀번호 대신 key를 제출하는 방식이다.
+				  SSH key는 공개키(public key)와 비공개키(private key)로 이루어져 있다.
+				  공개키는 암호화에 활용되고, 비공개키는 복호화에 활용된다. 따라서, 비공개키가 없으면 제 3자가 통신 내용을 알 수 없다.
+				  SSH 보안 방식은 다양한 종류가 있지만, 일반적으로 사용하는 비대칭키 인증 방식은 아래와 같다.
+					c-c-b-a. 클라이언트 측에서 SSK key를 생성한다.
+					c-c-b-b. 클라이언트 측에서 생성한 공개키를 서버로 보내어 등록시킨다.
+					c-c-b-c. 서버 측에서는 클라이언트로부터 받은 공개키를 이용하여 랜덤한 값을 생성하여 클라이언트에게 보낸다.
+					c-c-b-d. 클라이언트 측에서는 자기가 가지고 있는 비공개키를 이용하여 서버가 보내준 랜덤한 값을 해석하고 그 값을 다시 서버로 보낸다.
+					c-c-b-e. 서버 측에서는 클라이언트가 보낸 값과 자기가 생성해낸 랜덤한 값을 비교하고, 그 값이 같으면 인증된 것으로 판단하여 둘 사이에 암호화된 채널이 형성되어진다.
+			c-c-c. 설정파일 경로
+				: /etc/ssh/sshd_config
+					* Port : 기본 포트 번호(22)를 사용하고 싶지 않다면, 해당 항목을 “변경할 포트 번호”로 수정하여야 한다.
+					* PermitRootLogin : root 계정에 대한 SSH 연결을 허용하고 싶지 않다면, 해당 항목을 “no”로 수정하여야 한다.
+			c-c-d. 설치
+				c-c-d-a. 설치 확인 : sudo dpkg -l openssh-server
+				c-c-d-b. 설치 : sudo apt install openssh-server
+			c-c-e. 사용법
+				c-c-e-a. 시작 : sudo systemctl start sshd
+				c-c-e-b. 활성화 : sudo systemctl enable sshd
+				c-c-e-c. 재시작 : sudo systemctl restart sshd
+				c-c-e-d. 상태 확인 : sudo systemctl status sshd
+				c-c-e-e. 키 생성(클라이언트) : ssh-keygen
+				c-c-e-f. 원격 접속(클라이언트) : ssh “유저명”@“IP 주소” -p “포트번호”
+	d. 사용자 및 그룹 관리
+		d-a. sudo (Super User DO -> Substitute User DO)
+			d-a-a. 개요
+				: sudo 명령어는 유닉스 및 리눅스 계열 운영체제에서, 슈퍼유저로서 프로그램을 구동할 수 있도록 하는 프로그램이다.
+				  sudo 명령어는 Super User DO의 줄임말이었으나, Unix의 기능이 확장되며 Substitute User DO(다른 사용자의 권한으로 실행)의 줄임말로도 쓰인다.
+				  관리자 계정의 비밀번호로 직접 로그인하는 su와 다르게 sudo는 사용하는 당사자의 비밀번호를 사용한다. 따라서, 관리자 비밀번호가 공유될 필요가 없다는 측면에서 sudo가 su에 비해 더 우수하다고 평가받을 수 있다.
+					* sudo : 현재 계정에서 다른 계정의 권한만 빌림
+					* su : 다른 계정으로 전환
+					* su - : 다른 계정으로 전환 + 그 계정의 환경변수 적용
+			d-a-b. 작동 원리
+				: sudo 명령어는 /etc/sudoers 설정 파일에 명시되어 있는 사용자들만 사용 가능하다.
+				  이를 수정하려면 visudo 명령어를 이용하는 것이 정석적이다. 이를 사용하지 않을 시 sudoers 파일에 보안상 문제가 생길 수 있다.
+			d-a-c. 설정 방법
+				: visudo 명령어
+					* passwd_tries : 비밀번호 입력 최대 횟수를 지정한다.
+					* badpass_message : 비밀번호 틀렸을 때의 오류 메시지를 설정한다.
+					* authfail_message : 권한 획득 실패했을 때의 오류 메시지를 설정한다.
+					* log_input : sudo 명령어 실행 시 입력된 명령에에 대한 로깅 여부를 설정한다.
+					* log_output : sudo 명령어 실행 시 출력된 내용들에 대한 로깅 여부를 설정한다.
+					* iolog_dir : sudo 입출력 명령어에 대한 로그 경로를 설정한다.
+					* requiretty : TTY에 연결되지 않은 채로 sudo 명령어 실행하는 것을 금지한다. (ex: 콘솔에서 입력하지 아니하고, 쉘 스크립트 상에서 sudo 명령어 실행하는 것을 금지)
+					* secure_path : sudo 권한으로 이용할 수 있는 디렉토리 경로를 지정한다.
+			d-a-d. 설치
+				d-a-d-a. 설치 확인 : sudo dpkg -l sudo
+				d-a-d-b. 설치 : sudo apt install sudo
+			d-a-e. 사용법
+				d-a-e-a. sudo 그룹 사용자 추가 : sudo usermod -aG sudo “사용자명”
+				d-a-e-b. sudo 그룹 사용자 제거 : sudo deluser “사용자명” sudo
+		d-b. 사용자 관리
+			d-b-a. 개요
+				: 모든 사용자는 /etc/passwd 파일에 등록되어 있다.
+				  그리고, 사용자의 암호는 /etc/shadow 파일에 암호화되어 저장되어 있다.
+			d-b-b. 사용법
+				d-b-b-a. 사용자 추가 : sudo useradd “사용자명”
+				d-b-b-b. 사용자 삭제 : sudo userdel “사용자명”
+							* sudo userdel -r “사용자명” : 홈디렉토리까지 삭제할 수 있다.
+				d-b-b-c. 사용자 정보 검색 : sudo id “사용자명” or sudo cat /etc/passwd | grep “사용자명”
+		d-c. 사용자 그룹 관리
+			d-c-a. 개요
+				: 모든 그룹은 /etc/group 파일에 정의되어 있다.
+				  그리고, 그룹의 암호는 /etc/gshadow 파일에 암호화되어 저장되어 있다.
+			d-c-b. 사용법
+				d-c-b-a. 그룹 추가 : sudo groupadd “그룹명”
+				d-c-b-b. 그릅 삭제 : sudo groupdel “그룹명”
+				d-c-b-c. 사용자의 primary group 변경 : sudo usermod -g “그룹명” “사용자명”
+				d-c-b-d. 사용자의 secondary group 변경 : sudo usermod -G “그룹명” “사용자명”
+				d-c-b-e. 사용자의 secondary group 추가 : sudo usermod -aG “그룹명” “사용자명” or sudo gpasswd -a “사용자명” “그룹명”
+				d-c-b-f. 그룹에서 사용자 제거 : sudo deluser “사용자명” “그룹명” or sudo gpasswd -d “사용자명” “그룹명”
+		d-d-. 비밀번호 정책 관리
+			d-d-a. /etc/login.defs
+				: 신규 사용자 설정에 대한 기본값은 /etc/login.defs 파일에 정의되어 있다.
+				  따라서, 해당 파일에는 기본적인 비밀번호 관리 정책 항목들도 같이 정의되어 있다.
+					* PASS_MIN_DAYS : 비밀번호 최소 사용일
+					* PASS_MAX_DAYS : 비밀번호 최대 사용일
+					* PASS_WARN_AGE : 비밀번호 만료 경고일
+			d-d-b. PAM (Pluggable Authentication Module)
+				: PAM을 추가하면, 비밀번호 규칙을 지정할 수 있다.
+				  PAM을 설치하기 위해서는 sudo apt install libpam-pwquality 명령어를 사용하면 된다. 
+				  PAM을 설치하면, /etc/pam.d/common-password 파일에서 비밀번호 규칙을 지정할 수 있다.
+					* retry : 비밀번호 입력 가능 횟수
+					* minlen : 비밀번호 최소 글자 수
+					* dcredit : -1을 입력하면 숫자를 포함해야 한다.
+					* uredit : -1을 입력하면 대문자를 포함해야 한다.
+					* lcredit : -1을 입력하면 소문자를 포함해야 한다.
+					* ocredit : -1을 입력하면 특수문자를 포함해야 한다.
+					* maxrepeat : 동일 문자 최대 허용 횟수
+					* reject_username : 사용자명 포함 여부 검사
+					* enforce_for_root : 이 옵션을 사용하면 root 사용자도 이 시점까지 나열된 비밀번호 정책을 적용시킬 수 있다.
+					* difok : 이전 비밀번호에 포함되지 않는 최소 글자 수
+			d-d-c. 사용법
+				d-d-c-a. 비밀번호 설정 : sudo passwd “사용자명”
+				d-d-c-b. 비밀번호 즉시 만료 : sudo passwd -e “사용자명”
+			d-d-d. root 미사용
+				: 슈퍼 유저는 서버 운영에 있어서 막강한 권한을 가지는데, 사용자명이 root로 고정되어 있기 때문에 비인가자로부터의 root 탈취를 보호해야 할 필요가 있다.
+				  따라서, 안전한 서버 운영을 위해서 root 자체를 미사용하고 그 대신 다른 사용자가 슈퍼 유저의 권한을 사용할 수 있게끔 설정한다면 더 안전할 수 있다.
+					d-d-d-a. root 비밀번호 삭제 : sudo passwd -dl root
+					d-d-d-b. sudo 그룹 사용자 추가 : sudo usermod -aG sudo “사용자명”
+	e. 작업 스케쥴 관리
+		e-a. at
+			e-a-a. 개요
+				: 특정 작업을 지정된 시간에 실행할 수 있게 해준다.
+				  일시적으로 한 번만 수행하는 작업을 예약하며, atd란 daemon으로 작동한다.
+			e-a-b. 사용법
+				e-a-b-a. 예약 : at <시간>
+						at> 프롬프트에 예약 명령어 입력 후, Enter를 누른다. 입력이 끝났다면, Ctrl/D를 이용하여 프롬프트를 빠져나온다.
+				e-a-b-b. 예약 확인 : at -l
+				e-a-b-c. 예약 취소 : atrm <작업번호>
+		e-b. cron
+			e-b-a. 개요
+				: 특정 작업을 주기적으로 실행할 수 있게 해준다.
+				  crond라는 daemon에 의해 /etc/crontab file의 설정에 의해 /etc/cron.hourly, corn.daily, cron.weekly, cron.monthly directory 내의 file이 정해진 주기로 실행된다.
+				  일반 사용자가 편집하는 crontab 파일은 /var/spool/cron/사용자명 형태의 파일로 저장되며, 시스템 관리자는 /etc/cron.allow, /etc/cron.deny 파일 설정을 통해 crond를 이용할 사용자를 제한할 수도 있다.
+			e-b-b. 설정파일 경로
+				: /etc/crontab
+					* “분(0~59) / 시(0~23) / 일(1~31) / 월(1~12) / 요일(0~6) / 명령어”의 순서로 입력하면 된다.
+					* N분마다 실행시키고자 할 때에는 “*/N * * * * 명령어”를 입력하면 된다.
+					* N시간마다 실행시키고자 할 때에는 “* */ N * * * 명령어”를 입력하면 된다.
+					* N초마다 실행시키고자 할 때에는 “* * * * * 명령어”를 한 번 입력하고, “* * * * * sleep N; 명령어”를 60 / N - 1번 입력하면 된다.
+			e-b-c. 로그파일 경로
+				: /var/log/cron
+			e-b-d. 사용법
+				e-b-d-a. 예약 편집 : crontab -e
+				e-b-d-b. 예약 확인 : crontab -l
+				e-b-d-c. 모든 예약 삭제 : crontab -r
+		e-c. anacron
+			e-c-a. 개요
+				: cron은 서버가 구동 중일 때에만 정해진 시간에 작동한다. 만일, 개인용 서버처럼 상시 켜져있는 서버가 아닌 경우에는 cron 동작이 스킵되는 상황도 있다.
+				  anacron은 이러한 cron의 동작을 보완하기 위하여 만들어졌고, 서버가 켜졌을 때 cron 작업이 정해진 시간에 작동하였는지를 점검하고 만일 해당 작업이 실행되지 않았다면 그 것을 여유를 두고 실행한다.
+			e-c-b. 설정파일 경로
+				: /etc/anacrontab
+	f. 리소스 관리 명령어
+		f-a. CPU
+			f-a-a. lscpu : CPU 정보를 간편하게 확인할 수 있다.
+			f-a-b. nproc : 사용 가능한 프로세서 개수를 확인할 수 있다.
+					* nproc —all : 설치된 모든 프로세서 개수를 알 수 있다.
+			f-a-c. /proc/cpuinfo : CPU 코어 개별적인 세부 정보를 확인할 수 있다.
+					* cat /proc/cpuinfo | grep ‘core id’ | wc -l : 프로세서의 실제 코어 개수를 알 수 있다.
+					* cat /proc/cpuinfo | grep processor | wc -l : 가상 프로세서 개수를 알 수 있다. (하이퍼쓰레딩 결과가 반영되어 있다.)
+			f-a-d. mpstat : CPU와 Core 별로 사용율을 모니터링할 수 있는 명령어이다. mpstat는 sysstat 패키지를 설치하면, 함께 설치된다.
+					* mpstat | grep all : 모든 CPU에 대한 사용율을 알 수 있다.
+		f-b. Memory
+			f-b-a. free : 메모리 정보를 확인할 수 있다.
+				      전체 메모리 크기와 사용 중인 메모리 크기, 그 밖에 공유 메모리와 buffer, cache 메모리 및 swap 크기를 알 수 있다.
+					* free -h : 사람이 읽기 쉬운 단위로 출력한다.
+					* free -k or -m or -g : 키비바이트 or 메비바이트 or 기비바이트 단위로 출력한다. (2^10, 2^20, 2^30)
+					* free —kilo or —mega or —giga : 킬로바이트 or 메가바이트 or 기가바이트 단위로 출력한다. (10^3, 10^6, 10^9)
+			f-b-b. /proc/meminfo : 메모리 세부 현황을 알 수 있다.
+		f-c. Disk
+			f-c-a. df (disk free) : mount한 파일 시스템 정보를 확인할 수 있다.
+					* df -h : 사람이 읽기 쉬운 단위로 출력한다.
+					* df -B : 출력되는 용량 단위(block size)를 지정할 수 있다. 예를 들어 df -BM으로 지정하면, 메비바이트 단위로 출력한다. (2^20)
+			f-c-b. du (disk usage) : directory별 사용량을 확인할 수 있다.
+					* du -h : 사람이 읽기 쉬운 단위로 출력한다.
+					* du -s : 용량의 합계를 출력한다.
+		f-d. Network
+			f-d-a. ip : ip 관련 정보 조회 및 설정을 할 수 있다.
+					추가 업데이트 지원이 되지 않는 ifconfig 명령어를 대체하는 명령어이다.
+					* ip -help : 매뉴얼
+					* ip link show : 모든 네트워크 인터페이스의 상태를 출력한다.
+					* ip link show | grep -w ‘ether’ : MAC 주소를 추출할 수 있다.
+					* ip addr show : 모든 네트워크 인터페이스에 할당된 IPv4 및 IPv6 주소를 출력한다.
+			f-d-b. ss (socket statistics) : 소켓 상태를 확인할 수 있다.
+							netstat 명령어를 대체하는 명령어이다.
+					* ss | grep -i tcp | wc -l : 활성 tcp 연결 개수를 알 수 있다.
+	g. 서버 관리 명령어
+		g-a. 서버 정보 확인
+			g-a-a. uname (unix name) : 현재의 머신, 또 그 머신 위에 실행 중인 운영체제의 이름, 버전, 기타 자세한 정보를 출력한다.
+					* uname -a : 시스템의 전체 정보를 출력한다.
+						      [커널 이름 / 호스트명 / 커널 릴리즈 번호 / 커널 버전과 커널이 빌드된 날짜 정보 / 프로세서 아키텍처 정보 / 운영체제 이름]
+			g-a-b. hostname : 호스트명을 확인하거나 바꿀 때 사용하는 명령어이다.
+					* hostname -I : 호스트의 IP 주소를 출력한다.
+			g-a-c. /etc/os-release : 운영체제 정보를 확인할 수 있다.
+					* head -n 2 /etc/os-release : 운영체제명을 알 수 있다.
+		g-b. 파티션 확인
+			g-b-a. lsblk (list block devices) : 디바이스 정보를 출력하는 명령어이다. 옵션 없이 사용하면 트리 형식으로 모든 스토리지 디바이스를 출력한다.
+					* lsblk | grep lvm | wc -l : LVM으로 구성된 파티션 개수를 알 수 있다.
+		g-c. 위치 검색
+			g-c-a. find : 기본 file들을 검색하는 명령어이다.
+			g-c-b. which : 명령어의 실행파일 위치를 검색하는 명령어이다.
+			g-c-c. whereis : 명령어의 실행파일, 소스파일, man page 위치까지 검색하는 명령어이다.
+		g-d. 사용자 확인
+			g-d-a. users : 현재 시스템에 로그인한 사용자 이름을 출력하는 명령어이다.
+			g-d-b. who : 현재 시스템에 접속한 사용자를 확인하는 명령어이다.
+					* who -b : 시스템의 마지막 부팅 정보를 알 수 있다.
+			g-d-c. w : 사용자 정보를 자세히 확인할 수 있는 명령어이다.
+		g-e. 프로세스 확인
+			g-e-a. ps (process status) : 프로세스 상태를 확인할 수 있는 명령어이다.
+					* ps -ef | grep “프로세스명” or ps aux | grep “프로세스명” : 특정 프로세스 검색에 용이하다.
+			g-e-b. kill : 프로세스에게 signal을 보내는 명령어이다. (보통 종료에 많이 사용한다.)
+		g-f. 메시지 송신
+			g-f-a. wall : 모든 로그인된 사용자들에게 터미널을 통해 메시지를 전달하는 명령어이다.
+	h. 서비스 관리
+		h-a. WordPress (w/ lighttpd, PHP, MariaDB)
+			h-a-a. 개요
+				: 오픈소스를 기반으로 한 설치형 블로그 또는 CMS(Content Management System, 컨텐츠 관리 시스템)이다.
+				  업데이트가 지속되면서 각종 플러그인이 나왔고, 단순한 블로그뿐만 아니라 왠만한 사이트를 만드는데 활용할 수 있을 정도가 되었다. 그래서, 이제는 설치형 블로그가 아닌 CMS로 구분되어진다.
+				  워드프레스를 기반으로 하고 플러그인을 잘 맞춰서 만들면 웹표준을 따르는 사이트를 구축하기에 좋기 때문에, 현재 워드프레스로 만들어진 웹사이트들이 많이 있다.
+				  워드프레스는 PHP로 작성되었으며, 데이터베이스는 MySQL 또는 MariaDB가 주로 사용된다.
+			h-a-b. 웹 서버
+				: 서버에 접속한 사용자에게 웹 서비스를 제공하기 위하여 사용되는 서버의 한 종류이다.
+				  HTTP를 이용하여 인터넷 브라우저와 통신하며, http 통신의 경우 일반적으로 80번 포트를, https 통신의 경우 일반적으로 443번 포트를 사용한다.
+				  HTTP 자체가 TCP를 사용하나, UDP 프로토콜 또한 사용한다. 대표적인 예시로 실시간 동영상 시청 같은 많은 패킷을 주고 받을 때에는 UDP를 사용하기도 한다.
+					h-a-b-a. 개요
+						: 웹 서버(Web Server)의 주된 기능은 웹 페이지를 클라이언트(웹 브라우저)로 전달하는 것이다. 주로 그림, CSS, 자바스크립트를 포함한 HTML 문서가 이에 해당한다.
+						  보통 대다수의 웹 서버는 ASP, PHP 등의 서버 사이드 스크립트 언어를 지원한다. 이는 서버 소프트웨어의 변경 없이도 웹 서버가 수행할 동작을 분리된 서버 사이드 스크립트 언어에 기술할 수 있다는 의미이다.
+						  보통 서버 사이드 스크립트 언어를 통해 구현되는 기능이란 HTML 문서를 동적으로 생성하는 것을 말한다.
+						  이렇게 동적으로 생성된 HTML 문서를 동적 컨텐츠라 하는데 주로 데이터베이스의 정보를 조회해서 보여주거나 수정하기 위해 사용된다.
+						  동적 컨텐츠와 대비되는 개념으로 정적 컨텐츠가 있는데 일반적으로 동적 컨텐츠보다 더 빠르게 동작하고 쉽게 캐시될 수 있지만, 반환되는 컨텐츠의 내용이 항상 동일하다.
+					h-a-b-b. CGI (Common Gateway Interface)
+						: 웹 서버 프로그램의 기능의 주체는 미리 준비된 정보를 클라이언트의 요구에 응답해 보내는 것이다.
+						  그 때문에 서버 프로그램 그룹에서는 정보를 그 장소에서 동적으로 생성하고 클라이언트에 송신하려는 조합을 작성하는 것이 불가능했다.
+						  서버 프로그램에서 다른 프로그램을 불러내고, 그 처리 결과를 클라이언트에 송신하는 방법이 고안되었다. 이를 실현하기 위한 서버 프로그램과 외부 프로그램과의 연계법을 정한 것이 CGI이다.
+						  CGI는 현재 널리 쓰이지 않는데, 가장 큰 문제는 요청이 하나 들어올 때마다 프로세스가 하나씩 실행된다는 것이었다. 스크립트 언어는 실행될 때마다 해석해야 하기 때문에 속도 문제가 이슈되었다.
+						  따라서, 최근에는 웹 서버의 프로세서로서 인터프리터를 상주시킴으로써 하나의 프로세스로 요청들을 처리할 수 있게 하는 방식을 채택한 자바 서블릿이나, mod perl, mod php, FastCGI 등등이 활용된다.
+					h-a-b-c. 종류
+						* 아파치 HTTP 서버
+						* 마이크로소프트 IIS (Internet Information Service)
+						* NGINX (엔진 x라고 읽는다)
+						* GWS (Google Web Server)
+						* lighttpd
+			h-a-c. 3 계층 구조
+				: 3 계층 구조 (3 Tier Architecture)란, 어떤 플랫폼을 3 계층으로 나누어 별도의 논리적/물리적인 장치에 구축 및 운영하는 형태를 말한다.
+				  예를 들어, 웹 서버를 운영하는 경우 서버 데이터를 저장하고 읽는 데이터 계층, 데이터를 처리하는 어플리케이션 계층, 데이터를 표현해주는 프레젠테이션 계층과 같이 3 계층으로 나누어 볼 수 있다.
+					h-a-c-a. 프레젠테이션 계층
+						: 프레젠테이션 계층은 사용자가 직접 마주하게 되는 계층을 의미한다.
+						  주로 사용자 인터페이스를 지원하며, 이 계층은 GUI 또는 프론트엔드라고도 부른다.
+						  웹 서버 기준으로는, 클라이언트로부터 HTTP를 요청받고 다시 HTTP 문서를 응답하는 형태이다.
+					h-a-c-b. 어플리케이션 계층
+						: 어플리케이션 계층은 요청되는 정보를 어떠한 규칙을 바탕으로 처리하고 가공하는 역할을 담당한다.
+						  첫 번째 계층 또는 클라이언트 계층에서 이 계층을 바라 보기에는 서버처럼 동작하고(응답), 세 번째 계층에 대해서는 마치 클라이언트처럼 행동한다(요청). 이 계층은 미들웨어 또는 백엔드라고도 불린다.
+						  웹 서버 기준으로는, 이 계층에서는 프레젠테이션 계층으로부터 구성요소 요청을 받아서 내부 로직을 수행하고 데이터 계층에게 데이터 쿼리를 요청하는 형태를 가지며, Java나 PHP 등등이 활용되어진다.
+					h-a-c-c. 데이터 계층
+						: 데이터 계층은 데이터베이스에 접근하여 데이터를 읽거나 쓰는 것을 관리하는 역할을 담당한다.
+						  MySQL이나 MariaDB 등과 같은 DBMS가 이 계층에 해당되며, 이 계층 또한 백엔드라고도 부른다.
+			h-a-d. lighttpd (lite-tee-pee-dee'라고 발음하며, 짧게는 '라이티(lighty)'라고 부른다)
+				h-a-d-a. 개요
+					: 오픈소스를 기반으로 한 경량형 웹 서버이다.
+				h-a-d-b. 설정파일 경로
+					: /etc/lighttpd/lighttpd.conf (lighttpd의 기본 설정 파일이다.)
+					: /etc/lighttpd/conf-available/15-fastcgi-php.conf (lighttpd의 FastCGI 설정에 관한 파일이다.)
+				h-a-d-c. 설치
+					: sudo apt install lighttpd
+				h-a-d-d. 사용법
+					h-a-d-d-a. 중지 : sudo systemctl stop lighttpd.service
+					h-a-d-d-b. 시작 : sudo systemctl start lighttpd.service
+					h-a-d-d-c. 활성화 : sudo systemctl enable lighttpd.service
+					h-a-d-d-d. 재시작 : sudo systemctl restart lighttpd.service
+					h-a-d-d-e. FastCGI 활성화 : sudo lighttpd-enable-mod fastcgi
+							            sudo lighttpd-enable-mod fastcgi-php
+							            service lighttpd force-reload
+			h-a-e. PHP (Personal Home Page tools -> Hypertext Preprocessor)
+				h-a-e-a. 개요
+					: 대표적인 서버 사이드 스크립트 언어로 수많은 웹 시스템의 기반이 되는 언어이다. 비슷한 언어로는 ASP, JSP 등등이 있다.
+				h-a-e-b. 설정파일 경로
+					: /etc/php/7.4/fpm/php.ini
+				h-a-e-c. 설치
+					: sudo apt install php7.4-fpm
+					  sudo apt install php7.4-mysql
+			h-a-f. MariaDB
+				h-a-f-a. 개요
+					: 오픈소스를 기반으로 한 DBMS이다.
+					  MySQL이 오라클로 넘어간 뒤, 불확실한 라이선스 상태에 반발하여 만들어졌다.
+					  MySQL과 동일한 소스 코드를 기반으로 하며, GPL v2 라이선스를 따른다. MariaDB는 MySQL과 소스 코드를 같이 하므로 사용방법과 구조가 MySQL과 동일하다.
+				h-a-f-b. 설정 방법
+					: sudo mysql -u root -p
+						* DB 생성 : CREATE DATABASE <DBname>;
+						* 계정과 암호 생성 : CREATE USER '<username>'@'localhost' IDENTIFIED BY '<password>';
+						* 생성한 DB에 대한 full access 부여 : GRANT ALL ON <DBname>.* TO '<username>'@'localhost' IDENTIFIED BY '<password>' WITH GRANT OPTION;
+						* 설정 종료 : FLUSH PRIVILEGES;
+							      EXIT;
+				h-a-f-c. 설치
+					: sudo apt-get install mariadb-server mariadb-client
+				h-a-d-d. 사용법
+					h-a-d-d-a. 중지 : sudo systemctl stop mysql.service
+					h-a-d-d-b. 시작 : sudo systemctl start mysql.service
+					h-a-d-d-c. 활성화 : sudo systemctl enable mysql.service
+					h-a-d-d-d. 재시작 : sudo systemctl restart mysql.service
+					h-a-d-d-e. 보안설정 : sudo mysql_secure_installation
+			h-a-g. 설치 과정
+				h-a-g-a. lighttpd 설치 (c.f. h-a-d)
+				h-a-g-b. PHP 설치 및 설정 (c.f. h-a-e)
+				h-a-g-c. MariaDB 설치 및 설정 (c.f. h-a-f)
+				h-a-g-d. WordPress 설치
+					: sudo apt install wget
+					  sudo wget -O /tmp/wordpress.tar.gz "http://wordpress.org/latest.tar.gz"
+					  sudo tar -xvzf /tmp/wordpress.tar.gz -C /var/www/html
+						* wget : GNU Wget은 웹 서버로부터 컨텐츠를 가져오는 컴퓨터 프로그램으로, GNU 프로젝트의 일부이다.
+				h-a-g-e. WordPress DB 연동 설정
+					: /var/www/html/wordpress/wp-config-sample.php => 완료 후, wp-config.php로 변경
+						* DB_NAME
+						* DB_USER
+						* DB_PASSWORD
+						* DB_HOST
+						* AUTH_KEY ~ NONCE_SALT
+				h-a-g-f. WordPress 설치확인
+					: (hostip):(hostport)	<- /var/www/html/index.lighttpd.html
+					  (hostip):(hostport)/info.php
+					  (hostip):(hostport)/wordpress
+		h-b. phpMyAdmin
+			h-b-a. 개요
+				: MySQL을 웹 상에서 관리할 목적으로 PHP로 작성한 오픈 소스 도구이다.
+				  특히, 웹 호스팅 서비스를 위한 가장 대중적인 MySQL 관리 도구 가운데 하나가 되었다.
+			h-b-b. 설정파일 경로
+				: /etc/phpmyadmin/lighttpd.conf (이 파일을 /etc/lighttpd/lighttpd.conf 파일에 포함시켜야 한다.)
+			h-b-c. 설치
+				: sudo apt install phpmyadmin
+			h-b-d. 설치확인
+				: (hostip):(hostport)/phpmyadmin
+
+-.  셋업 참고 사이트
+	a. https://techdebt.tistory.com/18?category=833728
+	b. https://velog.io/@appti/born2beroot-Virtualbox-Debian-설치
+	c. https://nostressdev.tistory.com/11
+	d. https://wordpress.org/support/article/how-to-install-wordpress/
+	e. https://www.stevenjlee.net/2020/05/08/%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-3%EA%B3%84%EC%B8%B5-%EA%B5%AC%EC%A1%B0-3-tier-architecture/
+	f. https://jjeongil.tistory.com/1425
+	g. https://www.tecmint.com/install-lighttpd-in-ubuntu/
+	h. https://extrememanual.net/35625
