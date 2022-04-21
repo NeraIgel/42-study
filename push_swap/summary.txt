@@ -1,0 +1,181 @@
+[push_swap]
+-. 개요 정리
+	a. mandatory
+		a-a. 정수 인자들을 입력받는다. => stack a
+		a-b. 입력 받은 정수 인자들을 정렬시킨다. => stack a (w/ stack b)
+		a-c. 스택을 정렬하는데 필요한 별도의 명령어 집합을 가진다. => s, p, r, rr
+		a-d. 이 프로그램의 목표는 가능한 적은 개수의 명령어 집합으로 스택을 정렬시키는 것이다.
+		a-e. 이 프로그램을 구현하는데 필요한 정렬 알고리즘의 시간 복잡도에 대해서 확인해보는 것이 과제의 목표이다.
+	b. bonus
+		b-a. 정수 인자들을 입력받는다. => stack a
+		b-b. 스택 명령어들을 추가적으로 입력받는다. => s, p, r, rr
+		b-c. 스택 명령어들을 실행시키고, 정렬 여부를 검증한다. => stack a (w/ stack b)
+		b-d. 이 프로그램의 목표는 push_swap을 검증할 수 있는 프로그램을 만들어보는 것이다.
+
+-. 실행 방법 정의
+	a. mandatory
+		a-a. normal case
+			: ./push_swap 2 1 3 6 5 8	// 2 is top
+		a-b. abnormal case
+			: ./push_swap 0 one 2 3
+			: ./push_swap 0 0 2 3
+	b. bonus
+		b-a. normal case
+			: ./checker 3 2 1 0			// 3 is top
+			  rra
+			  pb
+			  sa
+			  rra
+			  pa
+		b-b. abnormal case
+			: ./checker 3 2 one 0
+			: ./checker 3 3 1 0
+			: ./checker 3 2 1 0
+			  swap
+			: ./checker 3 2 1 0
+			  sa
+			  rra
+			  pb
+
+-. 기반 기술 정리
+	a. data structure
+		a-a. linked list
+		a-b. stack
+		a-c. queue
+	b. sort algorithm
+		b-a. greedy & dp
+		b-b. radix sort		// O(nw)
+		b-c. heap sort		// O(n log n)
+		b-d. quick sort		// O(n log n)
+		b-e. merge sort		// O(n log n)
+
+-. 검증 방법 정리
+	a. checker_OS
+	b. Tester (https://github.com/lmalki-h/push_swap_tester)
+	c. Tester (https://github.com/minckim42/push_swap_tester)
+	d. Visualizer (https://github.com/o-reo/push_swap_visualizer)
+
+-. 자료 조사
+	a. https://possible-crepe-bc7.notion.site/push_swap-ac11251f4346486fa76e3c7ff49ca803
+	b. https://www.notion.so/Push_swap-c8027851b4594de0927216ac2ede1aaa
+	c. https://www.notion.so/push_swap-c15e62229b9541d78fadec4d6aae8b50
+
+-. 단위기능 목록 정의
+	a. mandatory
+		a-a. 명령행 인자 문자열에서 정수들을 추출하고, 오류 검사를 수행한다.
+		a-b. 스택에 데이터를 채워넣는다.
+		a-c. 스택의 데이터를 정렬시킨다.
+		a-d. 스택에 대한 별도 명령어를 실행한다.
+		a-e. 스택의 데이터가 정렬되었는지 검증한다.
+		a-f. 오류메시지 또는 명령어 실행 메시지를 출력한다.
+	b. bonus
+		b-a. 명령행 인자 문자열에서 정수들을 추출하고, 오류 검사를 수행한다.
+		b-b. 스택에 데이터를 채워넣는다.
+		b-c. 스택에 대한 별도 명령어를 개행을 기준으로 입력받는다.
+		b-d. 스택에 대한 별도 명령어를 실행한다.
+		b-e. 스택의 데이터가 정렬되었는지 검증한다.
+		b-f. 오류메시지 또는 정렬 결과 메시지를 출력한다.
+
+-. 디렉토리 구조 정의
+	— Makefile
+	— include
+	— libft
+	— src
+		|- algo
+		|- checker
+		|- core
+		|- elem
+		|- game
+		|- instr
+		|- queue
+		|- stack
+
+-. 시퀀스 플로우 정의
+	a. mandatory
+		a-a. 생성
+			a-a-a. 스택 a,b,input
+			a-a-b. 명령어 큐, 출력 큐
+		a-b. 초기화
+			a-b-a. 명령행 인자 문자열에서 유효한 목록을 추출한다.	// 인자가 주어지지 않는 경우는 미리 처리해놓는다.
+				a-b-a-a. 스택 a에 데이터를 채워넣는다.
+					a-b-a-a-a. 인자 유효성 검사
+						a-b-a-a-a-a. 정수 검사
+						a-b-a-a-a-b. int 범위 검사
+					a-b-a-a-b. 인자 목록 오류가 없으면 int 정수 값을 채워넣는다.
+					a-b-a-a-c. 인자 목록 오류가 있으면 오류메시지를 표준에러에 출력하고 리스소 정리 후 프로그램을 종료한다.
+				a-b-a-b. 스택 a의 데이터를 검사한다.
+					a-b-a-b-a. 중복 정수 오류가 있으면 오류메시지를 표준에러에 출력하고 리스소 정리 후 프로그램을 종료한다.
+				a-b-a-c. 스택 a의 데이터 튜닝 작업을 한다.
+					a-b-a-c-a. 원활한 정렬 알고리즘 적용을 위하여 인덱싱 처리한다.
+		a-c. 스택 정렬 loop
+			a-c-a. 실행 명령어를 판단한다.
+				(방안 1) greedy
+				(방안 2) radix sort
+				(방안 3) quick sort
+				(방안 4) quick sort + merge sort
+			a-c-b. 실행 명령어를 명령어 큐에 enqueue 한다.
+			a-c-c. 명령어 큐의 실행 명령어를 출력 큐에 복사한다.
+			a-c-d. 출력 큐에서 명령어 튜닝 작업을 한다.			// 미구현 (다른 정렬 알고리즘 사용 시 구현 필요할듯)
+				a-c-d-a. sa -> sb 명령어가 연속으로 있으면, ss 명령어로 치환시킨다.
+				a-c-d-b. sb -> sa 명령어가 연속으로 있으면, ss 명령어로 치환시킨다.
+				a-c-d-c. sa 명령어가 연속으로 있으면, 명령어 2개를 모두 삭제시킨다.
+				a-c-d-d. sb 명령어가 연속으로 있으면, 명령어 2개를 모두 삭제시킨다.
+				a-c-d-e. sb 명령어가 연속으로 있으면, 명령어 2개를 모두 삭제시킨다.
+				a-c-d-f. pa -> pb 명령어가 연속으로 있으면, 명령어 2개를 모두 삭제시킨다.
+				a-c-d-g. pb -> pa 명령어가 연속으로 있으면, 명령어 2개를 모두 삭제시킨다.
+				a-c-d-h. ra -> rb 명령어가 연속으로 있으면, rr 명령어로 치환시킨다.
+				a-c-d-i. rb -> ra 명령어가 연속으로 있으면, rr 명령어로 치환시킨다.
+				a-c-d-j. ra -> rra 명령어가 연속으로 있으면, 명렁어 2개를 모두 삭제시킨다.
+				a-c-d-k. rb -> rrb 명령어가 연속으로 있으면, 명령어 2개를 모두 삭제시킨다.
+				a-c-d-l. rra -> rrb 명령어가 연속으로 있으면, rrr 명령어로 치환시킨다.
+				a-c-d-m. rrb -> rra 명령어가 연속으로 있으면, rrr 명령어로 치환시킨다.
+				a-c-d-n. rra -> ra 명령어가 연속으로 있으면, 명령어 2개를 모두 삭제시킨다.
+				a-c-d-o. rrb -> rb 명령어가 연속으로 있으면, 명령어 2개를 모두 삭제시킨다.
+			a-c-e. 명령어 큐에서 실행 명령어를 dequeue 한다.
+			a-c-f. 실행 명령어를 수행한다.
+				a-c-f-a. swap : 스택 가장 위에 있는 두 원소의 위치를 서로 바꾼다.
+				a-c-f-b. push : 다른 스택의 가장 위에 있는 원소를 가져와서, 자기 스택의 가장 위에 넣는다.
+				a-c-f-c. rotate : 스택의 모든 원소들을 위로 1 인덱스만큼 올린다. 첫 번째 원소(탑)은 마지막 원소(바텀)가 된다.
+				a-c-f-d. reverse rotate : 스택의 모든 원소들을 아래로 1 인덱스만큼 내린다. 마지막 원소(바텀)는 첫 번째 원소(탑)가 된다.
+			a-c-g. 스택 상태를 확인한다.
+				a-c-g-a. 스택 검증
+					a-c-g-a-a. 스택 a가 오름차순 정렬되어 있고 스택 b가 비어있는지 확인한다.
+				a-c-g-b. 스택 검증이 완료되었으면 루프를 빠져나간다.
+				a-c-g-c. 스택 검증이 완료되지 않은 상태에서 프로그램 종료 시그널을 받더라도 별도 메시지를 출력하지 않는다.
+		a-d. 명령어 출력
+			a-d-a. 출력 큐의 명령어들을 출력한다.
+		a-e. 리소스 정리
+			a-e-a. 스택 a,b,input
+			a-e-b. 명령어 큐, 출력 큐
+	b. bonus
+		b-a. 생성
+			b-a-a. 스택 a,b,input
+		b-b. 초기화
+			b-b-a. 명령행 인자 문자열에서 유효한 목록을 추출한다.	// 인자가 주어지지 않는 경우는 미리 처리해놓는다.
+				b-b-a-a. 스택 a에 데이터를 채워넣는다.
+					b-b-a-a-a. 인자 유효성 검사
+						b-b-a-a-a-a. 정수 검사
+						b-b-a-a-a-b. int 범위 검사
+					b-b-a-a-b. 인자 목록 오류가 없으면 int 정수 값을 채워넣는다.
+					b-b-a-a-c. 인자 목록 오류가 있으면 오류메시지를 표준에러에 출력하고 리스소 정리 후 프로그램을 종료한다.
+				b-b-a-b. 스택 a의 데이터를 검사한다.
+					b-b-a-b-a. 중복 정수 오류가 있으면 오류메시지를 표준에러에 출력하고 리스소 정리 후 프로그램을 종료한다.
+				b-b-a-c. 스택 a의 데이터 튜닝 작업을 한다.
+					b-b-a-c-a. 원활한 정렬 알고리즘 적용을 위하여 인덱싱 처리한다.
+		b-c. 스택 검증 loop
+			b-c-a. 실행 명령어를 개행 단위로 입력받는다.
+				b-c-a-a. 명령어 유효성 검사
+					b-c-a-a-a. 명령어 집합에 포함된 명령어인지 확인한다.
+				b-c-a-b. 명령어가 유효하지 않으면 오류메시지를 표준에러에 출력하고 리소스 정리 후 프로그램을 종료한다.
+			b-c-b. 실행 명령어를 수행한다.
+				b-c-b-a. swap : 스택 가장 위에 있는 두 원소의 위치를 서로 바꾼다.
+				b-c-b-b. push : 다른 스택의 가장 위에 있는 원소를 가져와서, 자기 스택의 가장 위에 넣는다.
+				b-c-b-c. rotate : 스택의 모든 원소들을 위로 1 인덱스만큼 올린다. 첫 번째 원소(탑)은 마지막 원소(바텀)가 된다.
+				b-c-b-d. reverse rotate : 스택의 모든 원소들을 아래로 1 인덱스만큼 내린다. 마지막 원소(바텀)는 첫 번째 원소(탑)가 된다.
+		b-d. 스택 상태 확인
+			b-d-a. 스택 검증
+				b-d-a-a. 스택 a가 오름차순 정렬되어 있고 스택 b가 비어있는지 확인한다.
+			b-d-b. 스택 검증이 완료되었으면 성공메시지를 표준출력에 출력한다.
+			b-d-c. 스택 검증이 완료되지 않았으면 실패메시지를 표준출력에 출력한다.
+		b-e. 리소스 정리
+			b-e-a. 스택 a,b,input
