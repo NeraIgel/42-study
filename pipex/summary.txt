@@ -1,0 +1,141 @@
+[pipex]
+-. 개요 정리
+	a. mandatory
+		a-a. 단일파이프 + 리다이렉션 처리를 구현한다.
+	b. bonus
+		b-a. 다중파이프 처리를 구현한다.
+		b-b. here_doc 사용자 입력 처리를 구현한다.
+		b-c. here_doc 추가 리다이렉션(<<, >>) 처리를 구현한다.
+
+	* redirection : 표준 스트림의 방향을 특정 파일로 지정할 수 있다. dup2() 시스템 호출을 사용하여 기능을 수행할 수 있다.
+	* pipe : 프로세스의 출력을 또 다른 프로세스의 입력으로 보낼 수 있다. pipe() 시스템 호출을 사용하여 기능을 수행할 수 있다.
+	* command : execve() 시스템 호출을 사용하여 명령을 수행할 수 있다. 보통 fork()로 자식 프로세스를 생성하고 자식 프로세스에서 exec()류 함수를 호출한다.
+
+-. 실행 방법 정의
+	a. mandatory
+		: ./pipex file1 cmd1 cmd2 file2					// c.f. < file1 cmd1 | cmd2 > file2
+	b. bonus
+		: ./pipex file1 cmd1 cmd2 cmd3 … cmdn file2		// c.f. < file1 cmd1 | cmd2 | cmd3 … | cmdn > file2
+		: ./pipex here_doc LIMETER cmd cmd1 file		// c.f. cmd << LIMITER | cmd1 >> file
+
+-. 기반 기술 정리
+	a. process system call
+		a-a. fork : 자식 프로세스 생성
+		a-b. waitpid : 자식 프로세스의 종료상태 회수
+		a-c. execve : 커맨드 실행을 위하여 프로세스 변환
+		a-d. dup2 : 파일 디스크립터를 복제하고 서술자의 값 지정
+		a-e. pipe : 프로세스간 단방향 통신을 위한 데이터 채널 생성
+	b. file system call
+		b-a. access : 파일 존재 여부 및 권한 확인
+		b-b. unlink : 파일의 하드링크 카운트를 1 감소
+	c. error handling library
+		c-a. strerror : 오류 메시지 문자열을 가리키는 포인터 획득
+		c-b. perror : 전역변수 errno의 값을 해석하여 이에 해당하는 시스템 오류 메시지를 stderr에 출력
+
+	* open, close, read, write, malloc, free, perror, strerror, access, dup, dup2, execve, exit, fork, pipe, unlink, wait, waitpid
+
+-. 검증 방법 정리
+	a. https://github.com/vfurmane/pipex-tester
+	b. https://github.com/mariadaan/PIPEXaminator
+
+	* bonus test : https://github.com/Janeway42/pipex_bonus-/blob/master/tests.txt
+
+-. 자료 조사
+	a. http://web.cse.ohio-state.edu/~mamrak.1/CIS762/pipes_lab_notes.html
+	b. https://stackoverflow.com/questions/60804552/pipe-two-or-more-shell-commands-in-c-using-a-loop
+	c. https://stackoverflow.com/questions/8613845/parsing-command-line-string-in-to-argv-format
+	d. https://github.com/cclaude42/pipex
+	e. https://okky.kr/article/663466
+
+-. 단위기능 목록 정의
+	a. mandatory
+		a-a. 커맨드를 실행한다.
+		a-b. 리다이렉션을 수행한다.
+		a-c. 파이프를 통해 프로세스간 통신을 수행한다.
+	b. bonus
+		b-a. 커맨드를 실행한다.
+		b-b. <, > 리다이렉션을 수행한다.
+		b-c. <<, >> 리다이렉션을 수행한다.
+		b-d. 사용자 입력에 대한 리다이렉션 처리를 수행한다.
+		b-e. 파이프를 통해 프로세스간 통신을 1회 이상 수행한다.
+
+-. 디렉토리 구조 정의
+	— Makefile
+	— include
+	— libft
+	— src
+		|- core
+		|- pipex
+		|- process
+		|- utils
+
+-. 학습 내용
+	a. fork
+		a-a. 설명
+			: 새로운 프로세스를 생성한다.
+			  새롭게 생성된 자식 프로세스는 새로운 PID를 가지며, 호출한 부모 프로세스를 복사한다.
+			  자식 프로세스는 부모와 독립된 메모리 공간을 가지며, 단 파일 디스크럽터는 부모 파일디스크립터의 복사본을 가진다.
+		a-b. 리턴 값
+			a-b-a. 자식 : 0
+			a-b-b. 부모 : 자식의 PID
+			a-b-c. 에러 : -1 리턴하고 errno 설정
+	b. wait, waitpid
+		b-a. 설명
+			: 자식 프로세스의 종료상태를 회수한다.
+			  waitpid() 함수는 wait() 함수에 비하여 기다릴 자식프로세스 지정을 좀 더 상세히 할 수 있고, blocking point를 지정할 수도 있다.
+			  waitpid() 함수의 세 번째 인자에 아무 것도 넘겨주지 않으면 wait() 함수와 동일한 동작을 수행한다. 만일,  WNOHANG 옵션을 넘겨주면 blocking 되지 않고 비동기적으로 동작한다.
+				* fork()된 각각의 프로세스는 병렬적으로 실행되고 순서가 보장되지 않는다.
+				* 부모 프로세스에서 wait()를 수행하지 않으면 부모 프로세스가 자식 프로세스보다 먼저 종료될 수 있고, 그로 인하여 고아 프로세스가 생겨날 위험성이 있다.
+				* 자식 프로세스가 종료되더라도 커널은 최소한의 정보(프로세스 ID, 프로세스 종료 상태 등)를 남겨둔다. 부모 프로세스에서 wait()를 통해서 종료상태를 회수해야 좀비 프로세스가 제거된다.
+		b-b. 리턴 값
+			b-b-a. 성공 : 종료된 자식 프로세스의 PID	// WNOHANG 옵션이 지정되어 있고 기다리는 PID가 즉시 종료 상태를 회수할 수 없는 상황이면, 0 리턴
+			b-b-b. 실패 : -1 리턴하고 errno 설정
+		b-c. 출력 인자
+			b-c-a. WIFEXITED : 정상 종료
+				b-c-a-a. WEXITSTATUS : 종료 코드		// 자식 프로세스가 exit에 넘겨준 인자 값
+			b-c-b. WIFSIGNALED : 비정상 종료
+				b-c-b-a. WTERMSIG : 시그널 번호			// 자식 프로세스가 비정상 종료된 이유
+	c. execve
+		c-a. 설명
+			: execve() 함수를 호출하는 프로세스를 path에 해당하는 파일을 실행하는 새 프로세스로 변환한다.
+			  일반적으로, fork()로 자식 프로세스를 생성하고 자식 프로세스에서 exec류 함수를 호출함으로써 부모 프로세스는 계속 유지시킨다.
+		c-b. 리턴 값
+			c-b-a. 성공 : 없음
+			c-b-b. 실패 : -1 리턴하고 errno 설정
+	d. dup, dup2
+		d-a. 설명
+			: dup() 함수는 전달받은 fd를 복제하여 반환한다.
+			  dup2() 함수는 전달받은 fd를 복제하여 생성하고 새 서술자의 값을 fd2로 지정한다. 만일, newfd가 열려 있으면 닫은 후에 복제된다.
+		d-b. 리턴 값
+			d-b-a. 성공 : 새로운 fd
+			d-b-b. 실패 : -1 리턴하고 errno 설정
+	e. pipe
+		e-a. 설명
+			: 프로세스간 단방향 통신을 위한 데이터 채널을 생성한다.
+		e-b. 리턴 값
+			e-b-a. 성공 : 0 리턴하고, pipefd 갱신
+			e-b-b. 실패 : -1 리턴하고 errno 설정하고, pipefd 미갱신
+		e-c. 출력 인자
+			e-c-a. pipefd[0] : 파이프의 읽기 끝
+			e-c-b. pipefd[1] : 파이프의 쓰기 끝
+	f. access
+		f-a. 설명
+			: 파일 존재 여부 및 권한을 확인한다.
+		f-b. 리턴 값
+			f-b-a. 성공 : 0
+			f-b-b. 실패 : -1 리턴하고 errno 설정
+	g. unlink
+		g-a. 설명
+			: 파일의 하드링크 카운트를 1 감소시킨다.
+			  운영체제는 파일의 하드링크 카운트가 0이고 파일의 오픈 참조 카운트가 0이 되면, 실제 파일의 내용이 저장되어 있는 disk space를 해제하게 되며, 이 시점에 사실상 파일이 삭제된다.
+		g-b. 리턴 값
+			g-b-a. 성공 : 0
+			g-b-b. 실패 : -1 리턴하고 errno 설정
+
+-. 학습 참고 사이트
+	a. https://80000coding.oopy.io/42ecb056-9faf-41e6-b755-c49a9ebee4c2#18c8ade2-227f-4851-9160-ad6bc85d7f73
+	b. https://jehwanyoo.net/2020/10/19/Process-System-Call/
+	c. https://architectophile.tistory.com/9?category=880956
+	d. https://bigpel66.oopy.io/library/42/inner-circle/8
+	e. https://codetravel.tistory.com/42
+	f. https://www.it-note.kr/177
