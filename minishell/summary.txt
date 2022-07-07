@@ -1,0 +1,70 @@
+[minishell]
+-. 개요 정리
+	a. 간단한 쉘을 구현한다.
+		* shell : 쉘은 컴퓨터와 상호 작용할 수 있는 프로그램이다.
+			     쉘에서 사용자는 프로그램을 실행할 수 있으며, 입력과 출력을 파일에서 가져오도록 리다이렉션할 수도 있다.
+
+-. 실행 방법 정의
+	a. ./minishell
+		* 미니쉘은 별도 인자를 처리하지 않을 것이지만, main의 확장 매개변수 envp를 받아와서 별도의 환경변수 목록을 생성하여 관리한다.
+
+-. 자료 조사
+	a. https://velog.io/@hidaehyunlee/minishell-1.-%EA%B3%BC%EC%A0%9C%EC%86%8C%EA%B0%9C-%EB%B0%8F-%EC%84%A0%ED%96%89%EC%A7%80%EC%8B%9D
+	b. https://velog.io/@kypark/42seoul-MAC%EC%97%90-brew-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0
+	c. https://intrepidgeeks.com/tutorial/minishell-readline
+	d. https://bigpel66.oopy.io/library/42/inner-circle/10
+
+-. 개발 환경 정의
+	a. GNU Library readline
+
+-. 단위기능 목록 정의
+	a. mandatory
+		a-a. 명령 프롬프트(예: $>)를 표시한다.
+			a-a-a. 명령 프롬프트는 사용자가 enter 키를 눌러 커맨드라인을 입력할 때까지 기다린다.
+			a-a-b. 명령 프롬프트는 명령이 완전히 실행된 후에만 다시 표시된다.
+			a-a-c. 명령 히스토리를 보관한다.
+		a-b. 명령을 해석한다.
+			a-b-a. 파이프를 기준으로 명령어 목록을 생성한다.
+			a-b-b. 공백을 기준으로 명령어 옵션 목록을 생성한다.
+			a-b-c. $ 문자에 대하여 가능한 경우 환경변수 값으로 치환한다.
+			a-b-d. ‘, “” 문자에 대한 처리를 고려하여 명령어 옵션 목록을 생성한다.
+		a-c. PATH 변수 및 상대/절대 경로에 기반한 실행 파일을 찾아서 실행한다.
+			a-c-a. 실행 파일을 찾을 수 없는 경우, 오류 메시지를 표시하고 프롬프트를 다시 표시해야 한다.
+		a-d. 내장 기능을 구현한다.
+			a-d-a. echo (with option -n)
+			a-d-b. cd (with only a relative or absolute path)
+			a-d-c. pwd (with no options)
+			a-d-d. export (with no options)
+			a-d-e.. unset (with no options)
+			a-d-f. env (with no options)
+			a-d-g. exit (with no options)
+		a-e. 파이프 처리를 수행한다.
+		a-f. 시그널 처리를 수행한다.
+			a-f-a. Ctrl-C (print a new prompt on a newline)
+			a-f-b. Ctrl-D (exit the shell)
+			a-f-c. Ctrl-\ (do nothing)
+		a-g. 리다이렉션 처리를 수행한다.
+			a-g-a. <
+			a-g-b. >
+			a-g-c. <<
+			a-g-d. >>
+		a-h. 종료상태와 에러메시지를 처리한다.
+	b. bonus
+		b-a. &&, ||, ()를 사용하여 명령어 우선순위를 새롭게 지정한다.
+		b-b. 문자열 와일드카드 *를 입력하면, 현재 작업 디렉토리에서 작동되도록 구현한다.
+
+-. 디렉토리 구조 정의
+	— Makefile
+	— include
+	— libft
+	— src
+		|- core
+		|- shell
+		|- lexer
+		|- parser
+		|- executor
+		|- queue
+		|- builtins
+		|- process
+		|- file
+		|- utils
