@@ -6,7 +6,7 @@
 /*   By: sihunlee <sihunlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/27 13:12:35 by chulee            #+#    #+#             */
-/*   Updated: 2022/07/06 16:05:23 by chulee           ###   ########.fr       */
+/*   Updated: 2022/07/07 17:17:12 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,10 @@ static int	ft_check_env_to_quote(t_lexer *l, char cur_ch)
 	{
 		if (cur_ch != '\'' && cur_ch != '"')
 			return (1);
+		else
+			return (0);
 	}
-	else if (l->dqt_flag)
-	{
-		if (cur_ch == '\'' || cur_ch == '"')
-			return (1);
-	}
-	return (0);
+	return (1);
 }
 
 static int	ft_check_special_char(t_queue *temp_queue, char *input, t_lexer *l, \

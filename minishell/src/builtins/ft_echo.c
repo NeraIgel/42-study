@@ -6,7 +6,7 @@
 /*   By: sihunlee <sihunlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 21:40:42 by heha              #+#    #+#             */
-/*   Updated: 2022/07/06 14:09:26 by sihunlee         ###   ########.fr       */
+/*   Updated: 2022/07/07 17:18:10 by chulee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_echo(char *const argv[], t_queue *envmap, t_builtininfo *info)
 	(void)envmap;
 	(void)info;
 	i = 1;
-	if (argv[i] == NULL)
+	if (argv[i] == NULL || *(argv[i]) == '\0')
 	{
 		printf("\n");
 		return (0);
