@@ -1,0 +1,12 @@
+[NetPractice]
+-. 개요 정리
+	a. 소규모 네트워크 구성하는 것을 실습해본다.
+
+-. 학습 도서
+	a. 후니의 쉽게 쓴 시스코 네트워킹 4판
+
+-. 자료 조사
+	a. https://onepinetwopine.tistory.com/433
+	b. https://velog.io/@mseo/NetPractice-%EA%B3%BC%EC%A0%9C-%ED%95%B4%EC%84%9D
+	c. https://techdebt.tistory.com/34
+	d. https://bigpel66.oopy.io/library/42/inner-circle/2
