@@ -1,0 +1,7 @@
+# type	orig		dir			diameter(ratio)		height		color
+
+A								0.15							255,255,255
+L		0,-10,0					0.8
+C		0,0,0		0,0,-1		90
+
+sp		0,0,-10					4								200,160,0
