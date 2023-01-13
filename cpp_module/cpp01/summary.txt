@@ -1,0 +1,27 @@
+[CPP Module 01]
+-. 기반 기술 정리
+	a. ex00 ~ ex01
+		a-a. https://bytes.com/topic/c/answers/219954-what-scope-enum
+		a-b. https://stackoverflow.com/questions/11480545/explicit-copy-constructor
+		a-c. https://stackoverflow.com/questions/59513853/is-stdstringstreamflush-supposed-to-do-anything
+		a-d. https://stackoverflow.com/questions/50322177/what-happens-when-a-stringstream-is-flushed-in-c
+	c. ex02
+		c-a. https://woo-dev.tistory.com/43
+	d. ex03
+		d-a. https://ariya.io/2015/01/c-class-and-preventing-object-copy
+	e. ex04
+		e-a. https://modoocode.com/182
+		e-b. https://en.cppreference.com/w/cpp/string/basic_string/replace
+		e-c. https://stackoverflow.com/questions/10195343/copy-a-file-in-a-sane-safe-and-efficient-way
+		e-d. https://stackoverflow.com/questions/16806653/whis-is-faster-for-getting-a-part-of-the-string-stdstringerase-or-stdstri
+	f. ex05
+		f-a. https://stackoverflow.com/questions/31708302/function-pointer-array-to-a-method-within-a-class
+		f-b. https://stackoverflow.com/questions/40706805/how-to-convert-a-function-pointer-to-function-name
+		f-c. https://stackoverflow.com/questions/51624933/how-exactly-do-lookup-tables-work-and-how-to-implement-them
+	g. ex06
+		g-a. https://stackoverflow.com/questions/2749471/default-string-arguments
+		g-b. https://devbin.kr/c%EB%A1%9C-log-%EB%82%A8%EA%B8%B0%EB%8A%94-%EB%B0%A9%EB%B2%95-logger-%EB%A7%8C%EB%93%A4%EA%B8%B0/
+
+-. 자료 조사
+	a. https://bigpel66.oopy.io/library/42/inner-circle/12
+	b. https://techdebt.tistory.com/37

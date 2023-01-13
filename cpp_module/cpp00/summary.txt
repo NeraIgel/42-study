@@ -1,0 +1,24 @@
+[CPP Module 00]
+-. 기반 기술 정리
+	a. ex00
+		a-a. https://en.cppreference.com/w/cpp/string/byte/toupper
+	b. ex01
+		b-a. https://en.cppreference.com/w/cpp/string/basic_string/getline
+		b-b. https://en.cppreference.com/w/cpp/io/manip/ws
+		b-c. https://doitnow-man.tistory.com/234
+		b-d. https://stackoverflow.com/questions/58732434/cin-clear-leave-eof-in-stream
+		b-e. https://stackoverflow.com/questions/4654636/how-to-determine-if-a-string-is-a-number-with-c
+		b-f. https://stackoverflow.com/questions/46619159/can-not-initialize-an-array-in-the-copy-constructor
+	c. ex02
+		c-a. https://hwan-shell.tistory.com/88
+		c-b. https://gloomystudy.tistory.com/34
+		c-c. http://www.soen.kr/lecture/ccpp/cpp4/38-2-5.htm
+		c-d. https://stackoverflow.com/questions/997946/how-to-get-current-time-and-date-in-c
+
+		* https://cplusplus.com/
+		* https://en.cppreference.com/w/
+
+-. 자료 조사
+	a. https://bigpel66.oopy.io/library/42/inner-circle/11
+	b. https://junstar92.tistory.com/387
+	c. https://techdebt.tistory.com/36

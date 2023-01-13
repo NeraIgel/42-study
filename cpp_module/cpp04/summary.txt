@@ -1,0 +1,12 @@
+[CPP Module 04]
+-. 기반 기술 정리
+	b. ex01
+		b-a. https://stackoverflow.com/questions/397075/what-is-the-difference-between-exit-and-abort
+		b-b. https://stackoverflow.com/questions/38724788/what-is-the-difference-between-exit-and-stdexit-in-c
+	d. ex03
+		d-a. https://stackoverflow.com/questions/11837078/initialize-a-constant-sized-array-in-an-initializer-list
+		d-b. https://ju3un.github.io/c++-forward-declaration/
+
+-. 자료 조사
+	a. https://bigpel66.oopy.io/library/42/inner-circle/15
+	b. https://techdebt.tistory.com/40

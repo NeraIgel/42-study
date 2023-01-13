@@ -1,0 +1,11 @@
+[CPP Module 07]
+-. 기반 기술 정리
+	c. ex02
+		c-a. https://github.com/octol/vim-cpp-enhanced-highlight/issues/87
+		c-b. https://stackoverflow.com/questions/26419786/why-doesnt-new-in-c-return-null-on-failure
+		c-c. https://stackoverflow.com/questions/35453378/template-argument-in-template-class-assignment-operator
+		c-d. https://stackoverflow.com/questions/8305952/overloading-assignment-operator-in-a-class-template-that-can-cast-to-another-tem
+
+-. 자료 조사
+	a. https://bigpel66.oopy.io/library/42/inner-circle/18
+	b. https://techdebt.tistory.com/43

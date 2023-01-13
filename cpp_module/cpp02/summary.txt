@@ -1,0 +1,19 @@
+[CPP Module 02]
+-. 기반 기술 정리
+	a. ex00
+		a-a. https://tsi.kr/entry/C-Orthodox-Canonical-Class-Form-OCCF
+		a-b. https://edykim.com/ko/post/c-operator-overloading-guidelines/
+	b. ex01
+		b-a. https://inst.eecs.berkeley.edu//~cs61c/sp06/handout/fixedpt.html
+		b-b. https://gsmesie692.tistory.com/94
+		b-c. https://medialink.tistory.com/72
+		b-d. https://m.cafe.daum.net/kpucomjjang/D7M4/30?q=D_7_beATEAlUg0&
+		b-e. https://en.cppreference.com/w/c/numeric/math/round
+	c. ex02
+		c-a. https://en.cppreference.com/w/cpp/language/operators
+	d. ex03
+		d-a. https://stackoverflow.com/questions/2049582/how-to-determine-if-a-point-is-in-a-2d-triangle
+
+-. 자료 조사
+	a. https://bigpel66.oopy.io/library/42/inner-circle/13
+	b. https://techdebt.tistory.com/38

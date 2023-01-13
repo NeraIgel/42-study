@@ -1,0 +1,25 @@
+[CPP Module 06]
+-. 기반 기술 정리
+	a. ex00
+		a-a. https://en.cppreference.com/w/cpp/io/basic_istream/operator_gtgt
+		a-b. https://en.cppreference.com/w/cpp/types/numeric_limits
+		a-c. https://en.cppreference.com/w/cpp/io/basic_istream/get
+		a-d. https://en.cppreference.com/w/cpp/string/byte/isprinf
+		a-e. https://stackoverflow.com/questions/11551853/can-static-cast-throw-an-exception-in-c
+		a-f. https://stackoverflow.com/questions/410853/how-do-you-check-for-infinite-and-indeterminate-values-in-c
+		a-g. https://stackoverflow.com/questions/570669/checking-if-a-double-or-float-is-nan-in-c
+		a-h. https://learn.microsoft.com/ko-kr/cpp/standard-library/numeric-limits-class?view=msvc-170
+		a-i. https://unluckyjung.github.io/c++/2020/06/16/Real_Number/
+		a-j. https://breakcoding.tistory.com/175
+	b. ex01
+		b-a. https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=wkdghcjf1234&logNo=220210906503
+	c. ex02
+		c-a. https://stackoverflow.com/questions/28002/regular-cast-vs-static-cast-vs-dynamic-cast
+		c-b. https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-in-c
+		c-c. https://en.cppreference.com/w/cpp/language/dynamic_cast
+		c-d. https://en.cppreference.com/w/cpp/types/bad_cast
+		c-e. https://uncertainty-momo.tistory.com/66
+
+-. 자료 조사
+	a. https://bigpel66.oopy.io/library/42/inner-circle/17
+	b. https://techdebt.tistory.com/42

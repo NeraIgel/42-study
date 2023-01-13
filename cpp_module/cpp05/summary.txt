@@ -1,0 +1,22 @@
+[CPP Module 05]
+-. 기반 기술 정리
+	a. ex00
+		a-a. http://www.tcpschool.com/cpp/cpp_exception_class
+		a-b. https://ansohxxn.github.io/cpp/chapter14-3/
+		a-c. https://ansohxxn.github.io/cpp/chapter14-4/
+		a-d. https://ku-hug.tistory.com/69
+		a-e. https://modoocode.com/230
+	b. ex01
+		b-a. https://stackoverflow.com/questions/2145147/why-catch-an-exception-as-reference-to-const
+	c. ex02
+		c-a. https://ascii.co.uk/art/tree
+		c-b. https://en.cppreference.com/w/cpp/numeric/random/rand
+		c-c. https://stackoverflow.com/questions/6959533/c-stdofstream-exception/6959673
+		c-d. https://stackoverflow.com/questions/40246459/exception-not-caught-opening-a-non-existing-file-using-c
+		c-e. https://stackoverflow.com/questions/61554743/assign-or-construct-a-stdstring-given-multiple-char-strings
+		c-f. https://uncertainty-momo.tistory.com/66
+		c-g. https://stackoverflow.com/questions/67024043/overloading-assignment-operator-and-upcasting
+
+-. 자료 조사
+	a. https://bigpel66.oopy.io/library/42/inner-circle/16
+	b. https://techdebt.tistory.com/41

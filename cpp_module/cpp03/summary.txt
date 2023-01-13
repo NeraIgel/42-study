@@ -1,0 +1,13 @@
+[CPP Module 03]
+-. 기반 기술 정리
+	b. ex01
+		b-a. https://stackoverflow.com/questions/7405740/how-can-i-initialize-base-class-member-variables-in-derived-class-constructor
+		b-b. https://stackoverflow.com/questions/54303609/can-virtual-function-be-called-inside-member-initializer-lists
+	d. ex03
+		d-a. https://stackoverflow.com/questions/43703229/how-to-call-copy-constructor-of-all-base-classes-for-copying-most-derived-class
+		d-b. https://stackoverflow.com/questions/65577672/copy-assignment-operator-for-diamond-inheritance-c
+		d-c. https://hyeonski.tistory.com/7
+
+-. 자료 조사
+	a. https://bigpel66.oopy.io/library/42/inner-circle/14
+	b. https://techdebt.tistory.com/39

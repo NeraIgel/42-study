@@ -1,0 +1,34 @@
+[CPP Module 08]
+-. 기반 기술 정리
+	a. ex00
+		a-a. https://en.cppreference.com/w/cpp/iterator
+		a-b. https://en.cppreference.com/w/cpp/container
+		a-c. https://en.cppreference.com/w/cpp/algorithm
+		a-d. https://en.cppreference.com/w/cpp/algorithm/find
+		a-e. https://en.cppreference.com/w/cpp/memory/allocator
+		a-f. https://en.cppreference.com/w/cpp/container/vector
+		a-g. https://en.cppreference.com/w/cpp/container/deque
+		a-h. https://en.cppreference.com/w/cpp/container/list
+		a-i. https://en.cppreference.com/w/cpp/container/stack
+		a-j. https://en.cppreference.com/w/cpp/container/queue
+		a-k. https://en.cppreference.com/w/cpp/iterator/begin
+		a-l. https://en.cppreference.com/w/cpp/error/runtime_error
+		a-m. https://learn.microsoft.com/ko-kr/cpp/standard-library/runtime-error-class?view=msvc-170
+		a-n. https://www.codechosun.com/222
+		a-o. https://ansohxxn.github.io/stl/chapter16-2/
+		a-p. https://stackoverflow.com/questions/40901372/is-vectorintconst-iterator-an-output-iterator
+		a-q. http://egloos.zum.com/sweeper/v/3082946
+	b. ex01
+		b-a. https://director-joe.kr/27
+		b-b. https://modoocode.com/224
+		b-c. https://42born2code.slack.com/archives/CU6MU5TB7/p1629943933005100
+		b-d. https://42born2code.slack.com/archives/CMX2R5JSW/p1664494085177409
+		b-e. https://stackoverflow.com/questions/3867111/compare-result-of-stddistance-with-an-unsigned-type
+	c. ex02
+		c-a. https://en.cppreference.com/w/cpp/container/stack
+		c-b. https://en.cppreference.com/w/cpp/container/deque
+		c-c. https://stackoverflow.com/questions/23618927/get-element-type-from-templated-container-type
+
+-. 자료 조사
+	a. https://bigpel66.oopy.io/library/42/inner-circle/19
+	b. https://techdebt.tistory.com/44
